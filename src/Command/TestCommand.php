@@ -9,6 +9,7 @@
 namespace App\Command;
 
 
+use Illuminate\Database\Capsule\Manager;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -37,6 +38,13 @@ class TestCommand extends Command
         $output->writeln([
             'symfony console 的输出跑起来了',
         ]);
+
+        /**
+         * @var Manager
+         */
+        $db = $this->container->get('db');
+        $result = $db->table('user')->get();
+        var_dump($result);
 
         $logger = $this->container->get('logger');
         $logger->info("slim 的日志也跑起来了");

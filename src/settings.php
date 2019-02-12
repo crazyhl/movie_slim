@@ -8,6 +8,18 @@ return [
         'renderer' => [
             'template_path' => __DIR__ . '/../templates/',
         ],
+        // 数据库 illuminate/database
+        'db' => [
+            'driver'    => 'mysql',
+            'host'      => 'mysql',
+            'port'      => '3306',
+            'database'  => 'movie',
+            'username'  => 'root',
+            'password'  => '123456789',
+            'charset'   => 'utf8mb4',
+            'collation' => 'utf8mb4_general_ci',
+            'prefix'    => '',
+        ],
 
         // Monolog settings
         'logger' => [
