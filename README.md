@@ -17,3 +17,4 @@
 ```
 * 创建目录 `console` 用来存放异步任务入口
 * `src` 目录下的 `Command` 文件夹，用来存放具体的任务文件
+* 数据库采用 `illuminate/database`

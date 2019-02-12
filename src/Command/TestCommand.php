@@ -9,6 +9,7 @@
 namespace App\Command;
 
 
+use App\Model\User;
 use Illuminate\Database\Capsule\Manager;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Command\Command;
@@ -45,6 +46,8 @@ class TestCommand extends Command
         $db = $this->container->get('db');
         $result = $db->table('user')->get();
         var_dump($result);
+        $users = User::all();
+        var_dump($users);
 
         $logger = $this->container->get('logger');
         $logger->info("slim 的日志也跑起来了");
