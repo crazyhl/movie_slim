@@ -14,8 +14,12 @@ use Slim\Http\Response;
 
 class TestController extends BaseController
 {
-    public function test(Request $request, Response $response)
+    public function test(Request $request, Response $response, $args)
     {
-        return $response->getBody()->write('啦啦啦 controller 成了');
+        // Sample log message
+        $this->logger->info("Slim-Skeleton '/' route");
+
+        // Render index view
+        return $response->getBody()->write('home ' . $args['name']);
     }
 }

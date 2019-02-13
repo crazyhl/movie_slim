@@ -4,12 +4,5 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 // Routes
-$app->get('/test', \App\Controller\TestController::class . ':test');
-$app->get('/[{name}]', function (Request $request, Response $response, array $args) {
-    // Sample log message
-    $this->logger->info("Slim-Skeleton '/' route");
-
-    // Render index view
-    return $response->getBody()->write('home');
-});
+$app->get('/[{name}]', \App\Controller\TestController::class . ':test' );
 
