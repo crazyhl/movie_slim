@@ -20,3 +20,4 @@
 * 数据库采用 `illuminate/database`
 * 这个项目不会用模板相关的东西
 * `src` 目录下的 `Controller` 文件夹，用来存放前端接口，所有 `Controlelr` 都会继承 `BaseController`
+* `redis` 会用来做缓存以及一些任务投递相关
