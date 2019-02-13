@@ -18,3 +18,5 @@
 * 创建目录 `console` 用来存放异步任务入口
 * `src` 目录下的 `Command` 文件夹，用来存放具体的任务文件
 * 数据库采用 `illuminate/database`
+* 这个项目不会用模板相关的东西
+* `src` 目录下的 `Controller` 文件夹，用来存放前端接口，所有 `Controlelr` 都会继承 `BaseController`
