@@ -5,9 +5,9 @@ return [
         'addContentLengthHeader' => false, // Allow the web server to send the content-length header
 
         // Renderer settings
-        'renderer' => [
-            'template_path' => __DIR__ . '/../templates/',
-        ],
+//        'renderer' => [
+//            'template_path' => __DIR__ . '/../templates/',
+//        ],
         // 数据库 illuminate/database
         'db' => [
             'driver'    => 'mysql',
