@@ -7,7 +7,7 @@
  */
 if (PHP_SAPI == 'cli') {
     // Instantiate the app
-    $settings = require __DIR__ . '/../src/settings.php';
+    $settings = require __DIR__ . '/../config/settings.php';
 
     //I try adding here path_info but this is wrong, I'm sure
 //    $settings['environment'] = $env;
@@ -17,5 +17,5 @@ if (PHP_SAPI == 'cli') {
     $container = $app->getContainer();
 
     // Set up dependencies
-    require __DIR__ . '/../src/dependencies.php';
+    require __DIR__ . '/../config/dependencies.php';
 }
