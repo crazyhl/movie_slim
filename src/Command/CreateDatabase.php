@@ -62,6 +62,18 @@ class CreateDatabase extends Command
             $table->timestamps();
         });
         $output->writeln($tableName . ' 表创建完毕');
+        //category_source_site_category_relation 目标站分类和本地分类映射
+        $tableName = 'category_source_site_category_relation';
+        Manager::schema()->dropIfExists($tableName);
+        Manager::schema()->create($tableName, function (Blueprint $table) {
+            $table->integer('category_id')->comment('本地分类id');
+            $table->integer('source_site_category_id')->comment('目标站分类id');
+            $table->primary([
+                'category_id',
+                'source_site_category_id',
+            ], 'category_source_site_category');
+        });
+        $output->writeln($tableName . ' 表创建完毕');
         $output->writeln([
             '数据库都创建好了',
         ]);
