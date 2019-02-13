@@ -48,7 +48,10 @@ class TestCommand extends Command
         var_dump($result);
         $users = User::all();
         var_dump($users);
-
+        $redis = $this->container->get('redis');
+        $redis->set('test', '123123123');
+        $redisResult = $redis->get('test');
+        var_dump($redisResult);
         $logger = $this->container->get('logger');
         $logger->info("slim 的日志也跑起来了");
     }

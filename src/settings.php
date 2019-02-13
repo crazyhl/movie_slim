@@ -21,6 +21,12 @@ return [
             'prefix'    => '',
         ],
 
+        'redis' => [
+            'host'      => 'redis',
+            'port'      => 6379,
+            'timeout'  => '300',
+        ],
+
         // Monolog settings
         'logger' => [
             'name' => 'slim-app',

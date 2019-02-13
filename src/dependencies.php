@@ -17,6 +17,13 @@ $container['logger'] = function ($c) {
     $logger->pushHandler(new Monolog\Handler\StreamHandler($settings['path'], $settings['level']));
     return $logger;
 };
+// redis
+$container['redis'] = function ($container) {
+    $redis = new Redis();
+    $redis->connect($container['settings']['redis']['host'], $container['settings']['redis']['port']);
+    return $redis;
+};
+
 // illuminate/database
 $container['db'] = function ($container) {
     $capsule = new \Illuminate\Database\Capsule\Manager;
