@@ -119,7 +119,7 @@ class CreateDatabase extends Command
             $table->string('lang')->comment('语言');
             $table->string('area')->comment('区域');
             $table->integer('year')->comment('上映年份');
-            $table->text('note')->comment('目前抓回来的都是空的，多跑点数据就知道是干啥的了');
+            $table->text('note')->comment('等于是标题的扩展说明');
             $table->string('actor')->comment('演员');
             $table->string('director')->comment('导演');
             $table->string('description')->comment('简介');

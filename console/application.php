@@ -11,9 +11,11 @@ require __DIR__ . '/bootstrap.php';
 use Symfony\Component\Console\Application;
 use App\Command\TestCommand;
 use App\Command\CreateDatabase;
+use App\Command\AddTestData;
 
 $application = new Application();
 // TODO 这块等待注册各种 Command
 $application->add(new TestCommand($app->getContainer()));
 $application->add(new CreateDatabase($app->getContainer()));
+$application->add(new AddTestData($app->getContainer()));
 $application->run();

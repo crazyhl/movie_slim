@@ -9,6 +9,7 @@
 namespace App\Command;
 
 
+use App\Model\SourceInfo;
 use App\Model\User;
 use Illuminate\Database\Capsule\Manager;
 use Psr\Container\ContainerInterface;
@@ -40,19 +41,14 @@ class TestCommand extends Command
             'symfony console 的输出跑起来了',
         ]);
 
-        /**
-         * @var Manager
-         */
-        $db = $this->container->get('db');
-        $result = $db->table('user')->get();
-        var_dump($result);
-        $users = User::all();
-        var_dump($users);
+        $this->container->get('db');
         $redis = $this->container->get('redis');
         $redis->set('test', '123123123');
         $redisResult = $redis->get('test');
         var_dump($redisResult);
         $logger = $this->container->get('logger');
+        $zdSource = SourceInfo::find(1);
+        var_dump($zdSource);
         $logger->info("slim 的日志也跑起来了");
     }
 }

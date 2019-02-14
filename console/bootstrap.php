@@ -8,7 +8,8 @@
 if (PHP_SAPI == 'cli') {
     // Instantiate the app
     $settings = require __DIR__ . '/../config/settings.php';
-
+    // 时区
+    ini_set('date.timezone', $settings['timezone']);
     //I try adding here path_info but this is wrong, I'm sure
 //    $settings['environment'] = $env;
 

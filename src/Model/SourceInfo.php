@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: haoliang
- * Date: 2019-02-12
- * Time: 18:21
+ * Date: 2019-02-14
+ * Time: 16:12
  */
 
 namespace App\Model;
@@ -11,7 +11,7 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class User extends Model
+class SourceInfo extends Model
 {
-    protected $table = 'user';
+    protected $table = 'source_site';
 }
