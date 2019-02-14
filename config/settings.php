@@ -20,7 +20,7 @@ return [
             'collation' => 'utf8mb4_general_ci',
             'prefix'    => '',
         ],
-
+        // redis
         'redis' => [
             'host'      => 'redis',
             'port'      => 6379,

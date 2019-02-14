@@ -132,6 +132,29 @@ class CreateDatabase extends Command
         });
         $output->writeln($tableName . ' 表创建完毕');
 
+        //movie_video_list 视频播放列表，
+        $tableName = 'movie_video_list';
+        Manager::schema()->dropIfExists($tableName);
+        Manager::schema()->create($tableName, function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('movie_info_id')->index()->comment('视频信息id');
+            $table->text('video_info')->comment('视频信息');
+            $table->timestamps();
+        });
+        $output->writeln($tableName . ' 表创建完毕');
+
+        //movie_cover 视频封面，考虑到可能重复较多，用一个表保持唯一，这样就能节省磁盘容量
+        $tableName = 'movie_cover';
+        Manager::schema()->dropIfExists($tableName);
+        Manager::schema()->create($tableName, function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('movie_info_id')->index()->comment('视频信息id');
+            $table->char('file_md5', 32)->comment('文件md5');
+            $table->string('file_path')->comment('文件路径');
+            $table->timestamps();
+        });
+        $output->writeln($tableName . ' 表创建完毕');
+
         $output->writeln([
             '数据库都创建好了',
         ]);
