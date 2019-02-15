@@ -17,7 +17,8 @@
         "monolog/monolog": "^1.17",
         "symfony/console": "^4.2",
         "illuminate/database": "^5.7",
-        "ext-redis": "*"
+        "ext-redis": "*",
+        "ext-json": "*"
     },
     "require-dev": {
         "phpunit/phpunit": ">=4.8 < 6.0"

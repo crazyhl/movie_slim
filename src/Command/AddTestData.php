@@ -17,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class AddTestData extends Command
 {
-// the name of the command (the part after "bin/console")
+    // the name of the command (the part after "bin/console")
     protected static $defaultName = 'test:addData';
     private $container;
 
@@ -35,12 +35,27 @@ class AddTestData extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->container->get('db');
-        $sourceSite = new SourceInfo();
-        $sourceSite->name = '最大云播';
-        $sourceSite->type = 0;
-        $sourceSite->api_url = 'http://www.zdziyuan.com/inc/api_zuidam3u8.php';
-        $sourceSite->is_async_crawl = 0;
-        $sourceSite->save();
+        // 增加测试源站任务
+//        $sourceSite = new SourceInfo();
+//        $sourceSite->name = '最大云播';
+//        $sourceSite->type = 0;
+//        $sourceSite->api_url = 'http://www.zdziyuan.com/inc/api_zuidam3u8.php';
+//        $sourceSite->is_async_crawl = 0;
+//        $sourceSite->save();
+        // 增加测试投递任务
+        /**
+         * @var $redis \Redis
+         */
+        $redis = $this->container->get('redis');
+        $crawKey = 'crawl::crawlTask';
+        $redis->del($crawKey);
+        $task = 'movie:4:' . json_encode([
+                'action' => 'videolist',
+                'ids' => '',
+                't' => '',
+                'h' => '24'
+            ]) . ':0';
+        $redis->zAdd($crawKey, time(), $task);
         $output->writeln([
             '测试数据填充成功',
         ]);
