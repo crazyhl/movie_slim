@@ -58,6 +58,12 @@ class CrawlTask extends Command
                 // 而不是任务跑起来有问题
                 $redis->zDelete($crawKey, $task);
                 $taskArr = explode(':', $task);
+                switch ($taskArr[0]) {
+                    case 'movie':
+
+                        break;
+                }
+
                 $output->writeln($time . '-' . $task);
             }
         }
