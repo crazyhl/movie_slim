@@ -13,7 +13,7 @@ use Psr\Container\ContainerInterface;
 
 abstract class BaseTask
 {
-    private $container;
+    protected $container;
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;

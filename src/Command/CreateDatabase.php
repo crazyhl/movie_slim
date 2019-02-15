@@ -60,7 +60,8 @@ class CreateDatabase extends Command
             // 这个就先这样，虽然目前值支持电影的，天知道我还会不会增加其他的呢
             $table->tinyInteger('type')->comment('目标站类型 0 电影');
             $table->string('api_url')->comment('接口api url');
-            $table->boolean('is_async_crawl')->default(0)->comment('是否异步爬取');
+            $table->boolean('is_async_crawl')->default(0)->comment('是否异步爬取'
+                . '异步任务投递只会重新投递抓取最近24小时的任务');
             $table->boolean('is_default_info')->default(1)
                 ->comment('是否采用默认信息，这个是保存默认视频相关信息用的，多个是1的就按照最近更新的覆盖好了'
                     . '如果抓到的片子库里没有，就默认采用第一个抓到的信息');

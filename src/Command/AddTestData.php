@@ -53,7 +53,7 @@ class AddTestData extends Command
         $task = 'movie::4::' . json_encode([
                 'action' => 'videolist',
                 'ids' => '',
-                't' => '',
+                't' => '1',
                 'h' => '24'
             ]) . '::0';
         $redis->zAdd($crawKey, time(), $task);
