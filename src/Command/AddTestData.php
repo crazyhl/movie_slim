@@ -50,12 +50,12 @@ class AddTestData extends Command
         $crawKey = $this->container->get('redisKey')['crawlRedisTaskQueueKey'];
 //        var_dump($crawKey);
 //        $redis->del($crawKey);
-        $task = 'movie:4:' . json_encode([
+        $task = 'movie::4::' . json_encode([
                 'action' => 'videolist',
                 'ids' => '',
                 't' => '',
                 'h' => '24'
-            ]) . ':0';
+            ]) . '::0';
         $redis->zAdd($crawKey, time(), $task);
         $output->writeln([
             '测试数据填充成功',

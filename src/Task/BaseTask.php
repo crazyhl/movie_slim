@@ -9,7 +9,15 @@
 namespace App\Task;
 
 
+use Psr\Container\ContainerInterface;
+
 abstract class BaseTask
 {
-    abstract public function execute($task);
+    private $container;
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
+
+    abstract public function execute(array $task);
 }

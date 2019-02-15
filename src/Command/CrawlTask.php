@@ -9,6 +9,9 @@
 namespace App\Command;
 
 
+use App\Task\BaseTask;
+use App\Task\MovieCrawl;
+use Monolog\Logger;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -35,6 +38,10 @@ class CrawlTask extends Command
     {
         $this->container->get('db');
         /**
+         * @var $logger Logger
+         */
+        $logger = $this->container->get('logger');
+        /**
          * @var $redis \Redis
          */
         $redis = $this->container->get('redis');
@@ -52,16 +59,36 @@ class CrawlTask extends Command
             foreach ($tasks as $task => $time) {
                 // 首先删除任务，防止重复，虽然还是有概率重复，但是因为我们的任务对于唯一并没有要求，所以无所谓
                 // 另外基本上我们只运行一个异步任务，所以这个应该不会有问题
-                // 任务格式 类型:id:任务方案(json):重试次数 例如 movie:4:{"action":"videolist","ids":"","t":"","h":"24"}:0
+                // 任务格式 类型::id::任务方案(json)::重试次数
+                // 例如 1550217418-movie::4::{"action":"videolist","ids":"","t":"","h":"24"}::0
                 // 这个 json 目前
                 // 重试目前只重试3次，重试的时机在拉取信息失败的时候重试，解析失败不重试，因为解析失败属于应该更新代码
                 // 而不是任务跑起来有问题
                 $redis->zDelete($crawKey, $task);
-                $taskArr = explode(':', $task);
+                $taskArr = explode('::', $task);
+                $taskInstance = null;
                 switch ($taskArr[0]) {
                     case 'movie':
-
+                        // 影视
+                        $taskInstance = new MovieCrawl($this->container);
                         break;
+                }
+
+                if ($taskInstance instanceof BaseTask) {
+                    $result = $taskInstance->execute($taskArr);
+                    if ($result === false) {
+                        // 处理失败的时候重新投递任务，需要检测次数
+                        $count = $taskArr[3] + 1;
+                        if ($count < 3) {
+                            $redis->zAdd($crawKey, $time + 5, $task);
+                            $logger->alert($task . ' 执行出错，重新投递 当前第' . ($count) . '次');
+                        } else {
+                            $logger->error($task
+                                . ' 投递三次均执行出错，请检查目标站是否存活，如果存活，请检查解析器是否需要更新');
+                        }
+                    }
+                } else {
+                    $logger->error($task . ' 该任务没有找到对应任务实例，不处理');
                 }
 
                 $output->writeln($time . '-' . $task);
