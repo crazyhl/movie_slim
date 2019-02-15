@@ -47,8 +47,9 @@ class AddTestData extends Command
          * @var $redis \Redis
          */
         $redis = $this->container->get('redis');
-        $crawKey = 'crawl::crawlTask';
-        $redis->del($crawKey);
+        $crawKey = $this->container->get('redisKey')['crawlRedisTaskQueueKey'];
+//        var_dump($crawKey);
+//        $redis->del($crawKey);
         $task = 'movie:4:' . json_encode([
                 'action' => 'videolist',
                 'ids' => '',

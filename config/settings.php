@@ -1,5 +1,9 @@
 <?php
+
+$redisKeyConfig = require __DIR__ . '/redisKey.php';
+
 return [
+    'redisKey' => $redisKeyConfig,
     'timezone' => 'Asia/Shanghai',
     'settings' => [
         'displayErrorDetails' => true, // set to false in production
@@ -11,21 +15,21 @@ return [
 //        ],
         // 数据库 illuminate/database
         'db' => [
-            'driver'    => 'mysql',
-            'host'      => 'mysql',
-            'port'      => '3306',
-            'database'  => 'movie',
-            'username'  => 'root',
-            'password'  => '123456789',
-            'charset'   => 'utf8mb4',
+            'driver' => 'mysql',
+            'host' => 'mysql',
+            'port' => '3306',
+            'database' => 'movie',
+            'username' => 'root',
+            'password' => '123456789',
+            'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_general_ci',
-            'prefix'    => '',
+            'prefix' => '',
         ],
         // redis
         'redis' => [
-            'host'      => 'redis',
-            'port'      => 6379,
-            'timeout'  => '300',
+            'host' => 'redis',
+            'port' => 6379,
+            'timeout' => '300',
         ],
 
         // Monolog settings

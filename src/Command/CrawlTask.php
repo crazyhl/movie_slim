@@ -38,7 +38,7 @@ class CrawlTask extends Command
          * @var $redis \Redis
          */
         $redis = $this->container->get('redis');
-        $crawKey = 'crawl::crawlTask';
+        $crawKey = $this->container->get('redisKey')['crawlRedisTaskQueueKey'];
         // 死循环始终跑着任务
         while (true) {
             // 只弹出第一个任务
@@ -57,7 +57,7 @@ class CrawlTask extends Command
                 // 重试目前只重试3次，重试的时机在拉取信息失败的时候重试，解析失败不重试，因为解析失败属于应该更新代码
                 // 而不是任务跑起来有问题
                 $redis->zDelete($crawKey, $task);
-                //开始抓取
+                $taskArr = explode(':', $task);
                 $output->writeln($time . '-' . $task);
             }
         }
