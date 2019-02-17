@@ -45,6 +45,7 @@ class CreateDatabase extends Command
         Manager::schema()->create($tableName, function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->comment('分类id');
+            $table->integer('parent_id')->default(0)->index()->comment('父分类id');
             $table->integer('sort')->default(0)->index()->comment('排序');
             $table->boolean('is_show')->default(1)->index()->comment('是否显示出来');
             $table->timestamps();
@@ -75,9 +76,11 @@ class CreateDatabase extends Command
         Manager::schema()->dropIfExists($tableName);
         Manager::schema()->create($tableName, function (Blueprint $table) {
             $table->integer('category_id')->comment('本地分类id');
+            $table->integer('source_site_id')->comment('目标站id');
             $table->integer('source_site_category_id')->comment('目标站分类id');
             $table->primary([
                 'category_id',
+                'source_site_id',
                 'source_site_category_id',
             ], 'category_source_site_category');
         });
@@ -98,8 +101,8 @@ class CreateDatabase extends Command
             $table->text('note')->comment('目前抓回来的都是空的，多跑点数据就知道是干啥的了');
             $table->string('actor')->comment('演员');
             $table->string('director')->comment('导演');
-            $table->string('description')->comment('简介');
-            $table->boolean('is_show')->comment('是否外显');
+            $table->text('description')->comment('简介');
+            $table->boolean('is_show')->default(1)->comment('是否外显');
             $table->timestamps();
         });
         $output->writeln($tableName . ' 表创建完毕');
@@ -116,6 +119,7 @@ class CreateDatabase extends Command
             $table->integer('source_site_id')->index()->comment('源站id');
             $table->integer('source_id')->index()->comment('源id');
             $table->integer('source_category_id')->index()->comment('源分类id');
+            $table->timestamp('source_last_update')->index()->comment('源站更新时间');
             $table->string('cover')->comment('电影封面图');
             $table->string('lang')->comment('语言');
             $table->string('area')->comment('区域');
@@ -123,8 +127,7 @@ class CreateDatabase extends Command
             $table->text('note')->comment('等于是标题的扩展说明');
             $table->string('actor')->comment('演员');
             $table->string('director')->comment('导演');
-            $table->string('description')->comment('简介');
-            $table->boolean('is_show')->comment('是否外显');
+            $table->text('description')->comment('简介');
             $table->timestamps();
             $table->index([
                 'source_site_id',
@@ -139,6 +142,7 @@ class CreateDatabase extends Command
         Manager::schema()->create($tableName, function (Blueprint $table) {
             $table->increments('id');
             $table->integer('movie_info_id')->index()->comment('视频信息id');
+            $table->integer('source_site_id')->index()->comment('源站id');
             $table->text('video_info')->comment('视频信息');
             $table->timestamps();
         });
@@ -149,8 +153,7 @@ class CreateDatabase extends Command
         Manager::schema()->dropIfExists($tableName);
         Manager::schema()->create($tableName, function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('movie_info_id')->index()->comment('视频信息id');
-            $table->char('file_md5', 32)->comment('文件md5');
+            $table->char('file_md5', 32)->index()->comment('文件md5');
             $table->string('file_path')->comment('文件路径');
             $table->timestamps();
         });

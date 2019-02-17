@@ -47,8 +47,8 @@ class TestCommand extends Command
         $redisResult = $redis->get('test');
         var_dump($redisResult);
         $logger = $this->container->get('logger');
-        $zdSource = SourceInfo::find(1);
-        var_dump($zdSource);
+        $zdSource = SourceInfo::find(4);
+        var_dump($zdSource->updated_at);
         $logger->info("slim 的日志也跑起来了");
     }
 }

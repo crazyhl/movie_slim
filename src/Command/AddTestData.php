@@ -9,6 +9,8 @@
 namespace App\Command;
 
 
+use App\Model\Category;
+use App\Model\CategorySourceCategoryRelation;
 use App\Model\SourceInfo;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Command\Command;
@@ -42,6 +44,7 @@ class AddTestData extends Command
 //        $sourceSite->api_url = 'http://www.zdziyuan.com/inc/api_zuidam3u8.php';
 //        $sourceSite->is_async_crawl = 0;
 //        $sourceSite->save();
+
         // 增加测试投递任务
         /**
          * @var $redis \Redis
@@ -51,12 +54,52 @@ class AddTestData extends Command
 //        var_dump($crawKey);
 //        $redis->del($crawKey);
         $task = 'movie::4::' . json_encode([
-                'action' => 'videolist',
+                'ac' => 'videolist',
                 'ids' => '',
-                't' => '1',
-                'h' => '24'
+                't' => '',
+                'h' => ''
             ]) . '::0';
         $redis->zAdd($crawKey, time(), $task);
+
+        //        // 增加测试分类
+//        $sourceSiteId = 4;
+//        $sourceSiteCategoryId = [
+//            1 => '电影片',
+//            2 => '连续剧',
+//            3 => '综艺片',
+//            4 => '动漫片',
+//            5 => '动作片',
+//            6 => '喜剧片',
+//            7 => '爱情片',
+//            8 => '科幻片',
+//            9 => '恐怖片',
+//            10 => '剧情片',
+//            11 => '战争片',
+//            12 => '国产剧',
+//            13 => '香港剧',
+//            14 => '韩国剧',
+//            15 => '欧美剧',
+//            16 => '福利片',
+//            17 => '伦理片',
+//            18 => '音乐片',
+//            19 => '台湾剧',
+//            20 => '日本剧',
+//            21 => '海外剧',
+//        ];
+//
+//        foreach ($sourceSiteCategoryId as $id => $name) {
+//            $category = new Category();
+//            $category->name = $name;
+//            $category->save();
+//            $categroySourceRelation = new CategorySourceCategoryRelation();
+//            $categroySourceRelation->category_id = $category->id;
+//            $categroySourceRelation->source_site_id = $sourceSiteId;
+//            $categroySourceRelation->source_site_category_id = $id;
+//            $categroySourceRelation->save();
+//        }
+
+
+
         $output->writeln([
             '测试数据填充成功',
         ]);

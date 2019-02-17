@@ -60,7 +60,7 @@ class CrawlTask extends Command
                 // 首先删除任务，防止重复，虽然还是有概率重复，但是因为我们的任务对于唯一并没有要求，所以无所谓
                 // 另外基本上我们只运行一个异步任务，所以这个应该不会有问题
                 // 任务格式 类型::id::任务方案(json)::重试次数
-                // 例如 1550217418-movie::4::{"action":"videolist","ids":"","t":"","h":"24"}::0
+                // 例如 movie::4::{"action":"videolist","ids":"","t":"","h":"24"}::0
                 // 这个 json 目前
                 // 重试目前只重试3次，重试的时机在拉取信息失败的时候重试，解析失败不重试，因为解析失败属于应该更新代码
                 // 而不是任务跑起来有问题
@@ -80,7 +80,8 @@ class CrawlTask extends Command
                         // 处理失败的时候重新投递任务，需要检测次数
                         $count = $taskArr[3] + 1;
                         if ($count < 3) {
-                            $redis->zAdd($crawKey, $time + 5, $task);
+                            $taskArr[3] = $count;
+                            $redis->zAdd($crawKey, $time + 5, implode('::', $taskArr));
                             $logger->alert($task . ' 执行出错，重新投递 当前第' . ($count) . '次');
                         } else {
                             $logger->error($task
