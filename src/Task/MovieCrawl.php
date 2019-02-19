@@ -80,7 +80,7 @@ class MovieCrawl extends BaseTask
                         $this->sourceCategoryId = $xmlElement->tid->__toString();
 
                         // 如果分类本地存在映射才继续执行
-                        if ($sourceCategoryRelationArr[$this->sourceCategoryId]) {
+                        if ($this->sourceCategoryRelationArr[$this->sourceCategoryId]) {
                             // 生成所有源数据
                             $this->sourceName = $xmlElement->name->__toString();
                             $this->sourceId = $xmlElement->id->__toString();
