@@ -11,6 +11,9 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @method static find($sourceSiteId)
+ */
 class SourceInfo extends Model
 {
     protected $table = 'source_site';

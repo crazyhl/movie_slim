@@ -37,6 +37,10 @@ class MovieCrawl extends BaseTask
     private $sourceSiteId;
     private $sourceCategoryId;
 
+    /**
+     * @param array $task
+     * @return bool|void
+     */
     public function execute(array $task)
     {
         $this->sourceSiteId = $task[1];
@@ -93,6 +97,10 @@ class MovieCrawl extends BaseTask
                             $this->sourceActor = $xmlElement->actor->__toString();
                             $this->sourceDirector = $xmlElement->director->__toString();
                             $this->sourceDescription = $xmlElement->des->__toString();
+                            // 计算图片保存地址
+                            $coverSuffix = substr($this->sourceCover, strripos($this->sourceCover, '.'));
+                            $coverFileName = $this->sourceSiteId . '_' . $this->sourceId . $coverSuffix;
+                            $this->coverSaveFilePath = $this->container->get('defaultCoverDir') . $coverFileName;
 
                             $movieInfoSource = MovieInfoSource::where([
                                 ['source_site_id', '=', $this->sourceSiteId],
@@ -102,8 +110,8 @@ class MovieCrawl extends BaseTask
                             if ($movieInfoSource === null) {
                                 // 如果查询不到，就说明是新的影片或剧集，这时候要新建 movio_info
                                 // 然后在插入到 movie_info_source 中，为后续查询更新做准备
-                                // 下载cover
-                                $this->coverSaveFilePath = $this->downloadCover();
+                                // 投递下载cover任务
+                                $this->pushDownloadCoverTask();
                                 // 保存 movieInfo
                                 $movieInfo = $this->saveMovieInfo(new MovieInfo());
 
@@ -116,8 +124,8 @@ class MovieCrawl extends BaseTask
                                 }
                             } else if ($this->sourceLastUpdate->greaterThan($movieInfoSource->source_last_update)) {
                                 // 如果存在并且 线上更新时间大于本地更新时间 则要更新数据
-                                // 下载cover
-                                $this->coverSaveFilePath = $this->downloadCover();
+                                // 投递下载cover任务
+                                $this->pushDownloadCoverTask();
                                 $movieInfo = MovieInfo::find($movieInfoSource->local_id);
                                 if ($sourceInfo['is_default_info'] == 1) {
                                     // 如果采用默认数据，则需要更新movieInfo
@@ -125,7 +133,7 @@ class MovieCrawl extends BaseTask
                                 }
 
                                 // 保存 movieSourceInfo
-                                $movieInfoSource = $this->saveMovieSourceInfo($movieInfoSource, $movieInfo);
+                                $this->saveMovieSourceInfo($movieInfoSource, $movieInfo);
                                 // 更新videoList
                                 MovieVideoList::where([
                                     ['movie_info_id', '=', $movieInfo->id],
@@ -137,6 +145,8 @@ class MovieCrawl extends BaseTask
                             }
                         }
                     }
+
+                    return true;
                 } else {
                     // 如果不是 200 就说明出错了，重新投递
                     return false;
@@ -161,39 +171,6 @@ class MovieCrawl extends BaseTask
                 0
             ]));
         }
-    }
-
-    /**
-     * 下载封面
-     * @return string
-     */
-    private function downloadCover()
-    {
-        $coverSuffix = substr($this->sourceCover, strripos($this->sourceCover, '.'));
-        $coverFileName = $this->sourceSiteId . '_' . $this->sourceId . $coverSuffix;
-        $coverSaveFilePath = '/public/static/image/' . $coverFileName;;
-        $coverFilePath = APP_DIR . $coverSaveFilePath;
-        $resource = fopen($coverFilePath, 'w+');
-        $stream = \GuzzleHttp\Psr7\stream_for($resource);
-        $coverClient = new Client();
-        $coverResponse = $coverClient->get($this->sourceCover, ['save_to' => $stream, 'verify' => false]);
-        if ($coverResponse->getStatusCode() == 200) {
-            // 图片下载成功
-            $coverFileMd5 = md5_file($coverFilePath);
-            $movieCover = MovieCover::where('file_md5', $coverFileMd5)->first();
-            if ($movieCover === null) {
-                // 文件不存在就创建
-                $movieCover = new MovieCover();
-                $movieCover->file_md5 = $coverFileMd5;
-                $movieCover->file_path = $coverFilePath;
-                $movieCover->save();
-            } else {
-                // 文件存在就删除好了
-                unlink($coverFilePath);
-            }
-        }
-
-        return $coverSaveFilePath;
     }
 
     /**
@@ -258,5 +235,21 @@ class MovieCrawl extends BaseTask
         $movieVideoList->video_info = $sourceVideoList->__toString();
         $movieVideoList->source_site_id = $this->sourceSiteId;
         $movieVideoList->save();
+    }
+
+    /**
+     * 投递下载图片任务
+     */
+    private function pushDownloadCoverTask() {
+        /**
+         * @var $redis \Redis
+         */
+        $redis = $this->container->get('redis');
+        $downloadCoverKey = $this->container->get('redisKey')['downloadCoverRedisTaskQueueKey'];
+        $redis->zAdd($downloadCoverKey, time(), implode('::', [
+            $this->sourceCover,
+            $this->coverSaveFilePath,
+            0,
+        ]));
     }
 }

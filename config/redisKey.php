@@ -7,4 +7,5 @@
  */
 return [
     'crawlRedisTaskQueueKey' => 'crawl::crawlTask',
+    'downloadCoverRedisTaskQueueKey' => 'cover::download'
 ];

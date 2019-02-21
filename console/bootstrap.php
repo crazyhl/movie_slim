@@ -6,7 +6,7 @@
  * Time: 14:01
  */
 if (PHP_SAPI == 'cli') {
-    define('APP_DIR', __DIR__ . '/..');
+    define('APP_DIR', dirname(__DIR__));
 
     // Instantiate the app
     $settings = require __DIR__ . '/../config/settings.php';

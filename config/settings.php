@@ -4,6 +4,7 @@ $redisKeyConfig = require __DIR__ . '/redisKey.php';
 
 return [
     'redisKey' => $redisKeyConfig,
+    'defaultCoverDir' => '/public/static/image/', // 图片默认存储的相对路径
     'timezone' => 'Asia/Shanghai',
     'settings' => [
         'displayErrorDetails' => true, // set to false in production
