@@ -4,6 +4,10 @@ $redisKeyConfig = require __DIR__ . '/redisKey.php';
 
 return [
     'redisKey' => $redisKeyConfig,
+    'jwtSignatureKey' => 'jv8WZosvAQPrO0wAoFM7RmzX2uvcBDDuPqcJOJuh3ZzlRvmpNrOSuB91nvOVJUhqu_ZILExKF2WmrjDI5CuVumBB4oCUFiFDt01u7yPGYsRyJhmC7WzyoS4T0DfnmphRrAVmkmk9xsk-nKT46L0uRBueC1D4i9qUaGvfGwiDRa4', // jwt 签名key , 这个key 使用 jwt:generateOctString 生成
+    'jwtIss' => 'yourJwtIss', // jwt iss
+    'jwtAud' => 'youreJwtAud', // jwt aud
+    'jwtExp' => 3600, // jwt 默认有效期
     'defaultCoverDir' => '/public/static/image/', // 图片默认存储的相对路径
     'timezone' => 'Asia/Shanghai',
     'settings' => [

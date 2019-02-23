@@ -8,6 +8,7 @@
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/bootstrap.php';
 
+use App\Command\GenerateJWKOtcetString;
 use Symfony\Component\Console\Application;
 use App\Command\TestCommand;
 use App\Command\CreateDatabase;
@@ -22,4 +23,5 @@ $application->add(new CreateDatabase($app->getContainer()));
 $application->add(new AddTestData($app->getContainer()));
 $application->add(new CrawlTask($app->getContainer()));
 $application->add(new DownloadCover($app->getContainer()));
+$application->add(new GenerateJWKOtcetString($app->getContainer()));
 $application->run();

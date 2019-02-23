@@ -12,6 +12,7 @@ namespace App\Command;
 use App\Model\Category;
 use App\Model\CategorySourceCategoryRelation;
 use App\Model\SourceInfo;
+use App\Utils;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -46,20 +47,20 @@ class AddTestData extends Command
 //        $sourceSite->save();
 
         // 增加测试投递任务
-        /**
-         * @var $redis \Redis
-         */
-        $redis = $this->container->get('redis');
-        $crawKey = $this->container->get('redisKey')['crawlRedisTaskQueueKey'];
-//        var_dump($crawKey);
-//        $redis->del($crawKey);
-        $task = 'movie::4::' . json_encode([
-                'ac' => 'videolist',
-                'ids' => '',
-                't' => '',
-                'h' => ''
-            ]) . '::0';
-        $redis->zAdd($crawKey, time(), $task);
+//        /**
+//         * @var $redis \Redis
+//         */
+//        $redis = $this->container->get('redis');
+//        $crawKey = $this->container->get('redisKey')['crawlRedisTaskQueueKey'];
+////        var_dump($crawKey);
+////        $redis->del($crawKey);
+//        $task = 'movie::4::' . json_encode([
+//                'ac' => 'videolist',
+//                'ids' => '',
+//                't' => '',
+//                'h' => ''
+//            ]) . '::0';
+//        $redis->zAdd($crawKey, time(), $task);
 
         //        // 增加测试分类
 //        $sourceSiteId = 4;
@@ -98,7 +99,17 @@ class AddTestData extends Command
 //            $categroySourceRelation->save();
 //        }
 
+        /**
+         * @var Utils $utils
+         */
+        $utils = $this->container->get('utils');
 
+        $token = $utils->jwtEncode(['uid' => 123]);
+
+        $output->writeln($token);
+
+        $jws = $utils->jwtDecode($token);
+        var_dump($jws->getPayload());
 
         $output->writeln([
             '测试数据填充成功',

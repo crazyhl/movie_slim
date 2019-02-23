@@ -23,3 +23,8 @@
 * `redis` 会用来做缓存以及一些任务投递相关
 * `src` 目录下的 `Task` 文件夹，用来存放异步任务的具体实现，所有 `Task` 都会继承 `BaskTask`
 * `src` 目录下的 `Model` 文件夹，用来存放模型，所有 `Model` 都会继承 `illuminate/database` 中的 `Model`
+* 前端认证准备采用 `jwt` ，后续准备在中间件中加上自动续期的操作，放入到 `cookie` 中，然后前端更新token
+
+## 使用说明
+
+* 使用 php console/application.php jwt:generateOctString 生成 jwk 的 key，设置到 settings 的 jwtSignatureKey 中 
