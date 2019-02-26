@@ -4,7 +4,7 @@ $redisKeyConfig = require __DIR__ . '/redisKey.php';
 
 return [
     'redisKey' => $redisKeyConfig,
-    'jwtSignatureKey' => 'jv8WZosvAQPrO0wAoFM7RmzX2uvcBDDuPqcJOJuh3ZzlRvmpNrOSuB91nvOVJUhqu_ZILExKF2WmrjDI5CuVumBB4oCUFiFDt01u7yPGYsRyJhmC7WzyoS4T0DfnmphRrAVmkmk9xsk-nKT46L0uRBueC1D4i9qUaGvfGwiDRa4', // jwt 签名key , 这个key 使用 jwt:generateOctString 生成
+    'jwtSignatureKey' => '_avTzfR0fatqKFdsv2SQkWUbuUPMXuBoGvuQNKZigTvCktCMkZ3S4626BiiJlVr9ldDbkPaJZsp_0q3vN5pXsHWz6BvX961arIHmfziwxiRyqBVTBRGiP-9t6iDfS2wpv3bXqqS7NwYUiaQzUrKm6jYjPKJ7LNpKBzKoiBbFcjs', // jwt 签名key , 这个key 使用 jwt:generateOctString 生成
     'jwtIss' => 'yourJwtIss', // jwt iss
     'jwtAud' => 'youreJwtAud', // jwt aud
     'jwtExp' => 3600, // jwt 默认有效期

@@ -6,7 +6,7 @@
  * Time: 13:52
  */
 
-namespace App;
+namespace App\Utils;
 
 
 use Jose\Component\Core\Converter\StandardConverter;
@@ -15,7 +15,7 @@ use Jose\Component\Signature\JWSBuilder;
 use Jose\Component\Signature\JWSLoader;
 use Psr\Container\ContainerInterface;
 
-class Utils
+class JWT
 {
     /**
      * @var ContainerInterface $container

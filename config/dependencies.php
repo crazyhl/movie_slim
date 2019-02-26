@@ -14,7 +14,7 @@ use Jose\Component\Signature\JWSVerifier;
 use Jose\Component\Signature\Serializer\CompactSerializer;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Psr\Container\ContainerInterface;
-use App\Utils;
+use App\Utils\JWT;
 
 $container = $app->getContainer();
 
@@ -133,7 +133,7 @@ $container['jwsBuilder'] = function (ContainerInterface $container) {
 };
 
 $container['utils'] = function (ContainerInterface $container) {
-    $utils = new Utils($container);
+    $utils = new JWT($container);
 
     return $utils;
 };
