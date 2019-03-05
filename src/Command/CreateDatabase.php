@@ -159,6 +159,93 @@ class CreateDatabase extends Command
         });
         $output->writeln($tableName . ' 表创建完毕');
 
+        //user 用户表
+        $tableName = 'user';
+        Manager::schema()->dropIfExists($tableName);
+        Manager::schema()->create($tableName, function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('username', 32)->unique()->comment('用户名');
+            $table->string('password', 255)->comment('密码');
+            $table->timestamps();
+        });
+        $output->writeln($tableName . ' 表创建完毕');
+
+        //role 角色表
+        $tableName = 'role';
+        Manager::schema()->dropIfExists($tableName);
+        Manager::schema()->create($tableName, function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name', 32)->comment('角色名称');
+            $table->string('slug', 32)->unique()->comment('英文别名');
+            $table->string('description', 255)->comment('角色说明');
+            $table->boolean('is_open')->default(1)->index()->comment('是否启用');
+            $table->timestamp('expire')->comment('有效期');
+            $table->timestamps();
+        });
+        $output->writeln($tableName . ' 表创建完毕');
+
+        //role_user 角色用户关系表
+        $tableName = 'role_user';
+        Manager::schema()->dropIfExists($tableName);
+        Manager::schema()->create($tableName, function (Blueprint $table) {
+            $table->integer('role_id')->unsigned();
+            $table->foreign('role_id')->references('id')->on('role');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('role');
+            // 设置一个双主键
+            $table->primary([
+                'role_id',
+                'user_id'
+            ]);
+        });
+        $output->writeln($tableName . ' 表创建完毕');
+
+        //permission 权限表
+        $tableName = 'permission';
+        Manager::schema()->dropIfExists($tableName);
+        Manager::schema()->create($tableName, function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name', 32)->comment('权限名称');
+            $table->string('slug', 32)->unique()->comment('英文别名');
+            $table->string('description', 255)->comment('权限说明');
+            $table->boolean('is_open')->default(1)->index()->comment('是否启用');
+            $table->timestamp('expire')->comment('有效期');
+            $table->timestamps();
+        });
+        $output->writeln($tableName . ' 表创建完毕');
+
+        //permission_role 角色权限关系表
+        $tableName = 'permission_role';
+        Manager::schema()->dropIfExists($tableName);
+        Manager::schema()->create($tableName, function (Blueprint $table) {
+            $table->integer('role_id')->unsigned();
+            $table->foreign('role_id')->references('id')->on('role');
+            $table->integer('permission_id')->unsigned();
+            $table->foreign('permission_id')->references('id')->on('permission');
+            // 设置一个双主键
+            $table->primary([
+                'role_id',
+                'permission_id'
+            ]);
+        });
+        $output->writeln($tableName . ' 表创建完毕');
+
+        //permission_role 用户权限关系表
+        $tableName = 'permission_user';
+        Manager::schema()->dropIfExists($tableName);
+        Manager::schema()->create($tableName, function (Blueprint $table) {
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('user');
+            $table->integer('permission_id')->unsigned();
+            $table->foreign('permission_id')->references('id')->on('permission');
+            // 设置一个双主键
+            $table->primary([
+                'user_id',
+                'permission_id'
+            ]);
+        });
+        $output->writeln($tableName . ' 表创建完毕');
+
         $output->writeln([
             '数据库都创建好了',
         ]);
