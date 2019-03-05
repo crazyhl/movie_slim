@@ -24,7 +24,7 @@ return [
             'host' => 'mysql',
             'port' => '3306',
             'database' => 'movie',
-            'username' => 'root',
+            'username' => 'crazyhl',
             'password' => '123456789',
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_general_ci',

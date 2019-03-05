@@ -28,3 +28,4 @@
 ## 使用说明
 
 * 使用 php console/application.php jwt:generateOctString 生成 jwk 的 key，设置到 settings 的 jwtSignatureKey 中 
+* 注意 数据库如果不是 root 用户，记得进行授权先
