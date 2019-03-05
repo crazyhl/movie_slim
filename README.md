@@ -29,3 +29,4 @@
 
 * 使用 php console/application.php jwt:generateOctString 生成 jwk 的 key，设置到 settings 的 jwtSignatureKey 中 
 * 注意 数据库如果不是 root 用户，记得进行授权先
+* 如果使用 docker mysql 8.0 注意调整密码认证方式，可以参考 [https://blog.csdn.net/long_dragon123/article/details/83315892](https://blog.csdn.net/long_dragon123/article/details/83315892)
