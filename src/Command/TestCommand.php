@@ -41,7 +41,6 @@ class TestCommand extends Command
             'symfony console 的输出跑起来了',
         ]);
 
-        $this->container->get('db');
         $redis = $this->container->get('redis');
         $redis->set('test', '123123123');
         $redisResult = $redis->get('test');

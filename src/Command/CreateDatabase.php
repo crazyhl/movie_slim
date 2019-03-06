@@ -38,7 +38,6 @@ class CreateDatabase extends Command
          * @var Manager
          */
         // 初始化db
-        $this->container->get('db');
         //category 分类
         $tableName = 'category';
         Manager::schema()->dropIfExists($tableName);
@@ -179,7 +178,7 @@ class CreateDatabase extends Command
             $table->string('slug', 32)->unique()->comment('英文别名');
             $table->string('description', 255)->comment('角色说明');
             $table->boolean('is_open')->default(1)->index()->comment('是否启用');
-            $table->timestamp('expire')->comment('有效期');
+            $table->integer('expire')->default(0)->comment('有效期');
             $table->timestamps();
         });
         $output->writeln($tableName . ' 表创建完毕');
@@ -191,7 +190,7 @@ class CreateDatabase extends Command
             $table->integer('role_id')->unsigned();
             $table->foreign('role_id')->references('id')->on('role');
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('role');
+            $table->foreign('user_id')->references('id')->on('user');
             // 设置一个双主键
             $table->primary([
                 'role_id',
@@ -209,7 +208,7 @@ class CreateDatabase extends Command
             $table->string('slug', 32)->unique()->comment('英文别名');
             $table->string('description', 255)->comment('权限说明');
             $table->boolean('is_open')->default(1)->index()->comment('是否启用');
-            $table->timestamp('expire')->comment('有效期');
+            $table->integer('expire')->default(0)->comment('有效期');
             $table->timestamps();
         });
         $output->writeln($tableName . ' 表创建完毕');

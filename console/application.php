@@ -15,8 +15,10 @@ use App\Command\CreateDatabase;
 use App\Command\AddTestData;
 use App\Command\CrawlTask;
 use App\Command\DownloadCover;
+use App\Command\InitRoleAndAdmin;
 
 $application = new Application();
+$app->getContainer()->get('db');
 // TODO 这块等待注册各种 Command
 $application->add(new TestCommand($app->getContainer()));
 $application->add(new CreateDatabase($app->getContainer()));
@@ -24,4 +26,5 @@ $application->add(new AddTestData($app->getContainer()));
 $application->add(new CrawlTask($app->getContainer()));
 $application->add(new DownloadCover($app->getContainer()));
 $application->add(new GenerateJWKOtcetString($app->getContainer()));
+$application->add(new InitRoleAndAdmin($app->getContainer()));
 $application->run();

@@ -9,6 +9,10 @@
 namespace App\Command;
 
 
+use App\Model\Permission;
+use App\Model\Role;
+use App\Model\User;
+use Carbon\Carbon;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -35,6 +39,30 @@ class InitRoleAndAdmin extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $permission = new Permission();
+        $permission->name = '超级管理员';
+        $permission->slug = 'admin';
+        $permission->description = '默认的超级管理员';
+        $permission->save();
+        $output->writeln('管理员创建完毕2');
 
+
+        $role = new Role();
+        $role->name = '超级管理员';
+        $role->slug = 'admin';
+        $role->description = '默认的超级管理员';
+        $role->save();
+        $role->permissions()->attach($permission);
+        $output->writeln('管理员创建完毕1');
+
+
+        $user = new User();
+        $user->username = 'admin';
+        $user->password = $input->getOption('password');
+        $user->save();
+        $user->roles()->attach($role);
+        $user->permissions()->attach($permission);
+
+        $output->writeln('管理员创建完毕');
     }
 }

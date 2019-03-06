@@ -36,7 +36,6 @@ class DownloadCover extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->container->get('db');
         /**
          * @var $logger Logger
          */

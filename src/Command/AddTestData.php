@@ -37,7 +37,6 @@ class AddTestData extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->container->get('db');
         // 增加测试源站任务
 //        $sourceSite = new SourceInfo();
 //        $sourceSite->name = '最大云播';
