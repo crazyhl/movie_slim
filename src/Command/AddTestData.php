@@ -98,20 +98,24 @@ class AddTestData extends Command
 //            $categroySourceRelation->save();
 //        }
 
-        /**
-         * @var Utils $utils
-         */
-        $utils = $this->container->get('utils');
+//        /**
+//         * @var Utils $utils
+//         */
+//        $utils = $this->container->get('utils');
+//
+//        $token = $utils->jwtEncode(['uid' => 123]);
+//
+//        $output->writeln($token);
+//
+//        $jws = $utils->jwtDecode($token);
+//        var_dump($jws->getPayload());
+//
+//        $output->writeln([
+//            '测试数据填充成功',
+//        ]);
 
-        $token = $utils->jwtEncode(['uid' => 123]);
-
-        $output->writeln($token);
-
-        $jws = $utils->jwtDecode($token);
-        var_dump($jws->getPayload());
-
-        $output->writeln([
-            '测试数据填充成功',
-        ]);
+        $user = \App\Model\User::find(1);
+        var_dump($user->roles);
+        var_dump($user->permissions);
     }
 }

@@ -188,9 +188,7 @@ class CreateDatabase extends Command
         Manager::schema()->dropIfExists($tableName);
         Manager::schema()->create($tableName, function (Blueprint $table) {
             $table->integer('role_id')->unsigned();
-            $table->foreign('role_id')->references('id')->on('role');
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('user');
             // 设置一个双主键
             $table->primary([
                 'role_id',
@@ -218,9 +216,7 @@ class CreateDatabase extends Command
         Manager::schema()->dropIfExists($tableName);
         Manager::schema()->create($tableName, function (Blueprint $table) {
             $table->integer('role_id')->unsigned();
-            $table->foreign('role_id')->references('id')->on('role');
             $table->integer('permission_id')->unsigned();
-            $table->foreign('permission_id')->references('id')->on('permission');
             // 设置一个双主键
             $table->primary([
                 'role_id',
@@ -234,9 +230,7 @@ class CreateDatabase extends Command
         Manager::schema()->dropIfExists($tableName);
         Manager::schema()->create($tableName, function (Blueprint $table) {
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('user');
             $table->integer('permission_id')->unsigned();
-            $table->foreign('permission_id')->references('id')->on('permission');
             // 设置一个双主键
             $table->primary([
                 'user_id',
