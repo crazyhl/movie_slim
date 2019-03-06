@@ -13,6 +13,7 @@ use App\Model\Category;
 use App\Model\CategorySourceCategoryRelation;
 use App\Model\SourceInfo;
 use App\Utils;
+use Illuminate\Database\Capsule\Manager;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -113,9 +114,15 @@ class AddTestData extends Command
 //        $output->writeln([
 //            '测试数据填充成功',
 //        ]);
-
-        $user = \App\Model\User::find(1);
+        /**
+         * @var $db Manager
+         */
+        $db = $this->container->get('db');
+        $db->getConnection()->enableQueryLog();
+        $user = \App\Model\User::with('roles', 'permissions')->find(1);
         var_dump($user->roles);
         var_dump($user->permissions);
+        $log = $db->getConnection()->getQueryLog();
+        var_dump($log);
     }
 }
