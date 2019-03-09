@@ -10,6 +10,7 @@ namespace App\Controller;
 
 
 use Psr\Container\ContainerInterface;
+use Slim\Http\Response;
 
 class BaseController
 {
@@ -19,6 +20,8 @@ class BaseController
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+        // 初始化数据库连接
+        $this->container->get('db');
     }
 
     /**
@@ -36,5 +39,10 @@ class BaseController
         $this->containerDependencies[$name] = $this->container->get($name);
 
         return $this->containerDependencies[$name];
+    }
+
+
+    public function renderJson(Response $response, array $data) {
+        return $response->getBody()->write(json_encode($data));
     }
 }

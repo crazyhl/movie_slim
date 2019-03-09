@@ -46,10 +46,17 @@ return [
     ],
     'cors' => [
         "origin" => ["http://192.168.50.95:8080", "http://localhost:8080"],
-        "methods" => ["GET", "POST", "PUT", "PATCH", "DELETE"],
-        "headers.allow" => [],
+        "methods" => ["OPTIONS", "GET", "POST", "PUT", "PATCH", "DELETE"],
+        "headers.allow" => ['Access-Control-Request-Headers', 'Access-Control-Request-Method'],
         "headers.expose" => [],
         "credentials" => true,
         "cache" => 0,
+        "error" => function ($request, $response, $arguments) {
+            $data["status"] = "error";
+            $data["message"] = $arguments["message"];
+            return $response
+                ->withHeader("Content-Type", "application/json")
+                ->write(json_encode($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+        }
     ],
 ];

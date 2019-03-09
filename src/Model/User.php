@@ -41,4 +41,14 @@ class User extends Model
     {
         return $this->belongsToMany(Permission::class, 'permission_user', 'user_id', 'permission_id');
     }
+
+    /**
+     * Get the password for the user.
+     *
+     * @return string
+     */
+    public function getAuthPassword()
+    {
+        return $this->password;
+    }
 }
