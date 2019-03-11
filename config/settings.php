@@ -46,7 +46,7 @@ return [
     ],
     'cors' => [
         "origin" => ["http://192.168.50.95:8080", "http://localhost:8080"],
-        "methods" => ["OPTIONS", "GET", "POST", "PUT", "PATCH", "DELETE"],
+        "methods" => ["GET", "POST", "PUT", "PATCH", "DELETE"],
         "headers.allow" => ['Access-Control-Request-Headers', 'Access-Control-Request-Method'],
         "headers.expose" => [],
         "credentials" => true,
