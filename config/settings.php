@@ -48,7 +48,7 @@ return [
         "origin" => ["http://192.168.50.95:8080", "http://localhost:8080"],
         "methods" => ["GET", "POST", "PUT", "PATCH", "DELETE"],
         "headers.allow" => ['Access-Control-Request-Headers', 'Access-Control-Request-Method'],
-        "headers.expose" => [],
+        "headers.expose" => ['JWT-Token'],
         "credentials" => true,
         "cache" => 0,
         "error" => function ($request, $response, $arguments) {

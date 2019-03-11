@@ -56,7 +56,6 @@ class User extends BaseController
             return $response->withJson([
                     'status' => 0,
                     'message' => '登录成功',
-
                 ])->withHeader('JWT-Token', $jwtToken);
         } else {
             // 没验证通过
