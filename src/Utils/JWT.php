@@ -32,7 +32,7 @@ class JWT
      * @param array $payload
      * @return mixed
      */
-    public function jwtEncode(array $payload = [])
+    public function encode(array $payload = [])
     {
         $basePayload = [
             'iat' => time(),
@@ -76,7 +76,7 @@ class JWT
      * @return \Jose\Component\Signature\JWS
      * @throws \Exception
      */
-    public function jwtDecode($token)
+    public function decode($token)
     {
         /**
          * @var JWSLoader $jwsLoader

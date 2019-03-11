@@ -40,9 +40,4 @@ class BaseController
 
         return $this->containerDependencies[$name];
     }
-
-
-    public function renderJson(Response $response, array $data) {
-        return $response->getBody()->write(json_encode($data));
-    }
 }

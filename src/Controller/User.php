@@ -9,6 +9,8 @@
 namespace App\Controller;
 
 
+use App\Utils\JWT;
+use Slim\Http\Cookies;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use App\Model\User as UserModel;
@@ -19,22 +21,26 @@ class User extends BaseController
      * 用户登录
      * @param Request $request
      * @param Response $response
-     * @return int
+     * @return Response
      */
-    public function login(Request $request, Response $response) {
+    public function login(Request $request, Response $response)
+    {
         $postParams = $request->getParsedBody();
+        /**
+         * @var $user \App\Model\User
+         */
         $user = UserModel::where('username', $postParams['username'])->first();
 
         if (empty($user)) {
             // 用户不存在
-            return $this->renderJson($response, [
+            return $response->withJson([
                 'status' => -1,
                 'message' => '用户不存在'
             ]);
         }
 
         $password = $postParams['password'];
-        $passwordVerify  = password_verify($password, $user->getAuthPassword());
+        $passwordVerify = password_verify($password, $user->getAuthPassword());
 
         if ($passwordVerify) {
             // 验证通过了
@@ -43,14 +49,18 @@ class User extends BaseController
                 $user->password = $password;
                 $user->save();
             }
+
+            $jwtUtil = new JWT($this->container);
+            $jwtToken = $jwtUtil->encode(['uid' => $user->id]);
             // 登录成功
-            return $this->renderJson($response, [
-                'status' => 0,
-                'message' => '登录成功'
-            ]);
+            return $response->withJson([
+                    'status' => 0,
+                    'message' => '登录成功',
+                    'data' => $jwtToken,
+                ]);
         } else {
             // 没验证通过
-            return $this->renderJson($response, [
+            return $response->withJson([
                 'status' => -2,
                 'message' => '密码错误'
             ]);
