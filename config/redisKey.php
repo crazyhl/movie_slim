@@ -7,5 +7,6 @@
  */
 return [
     'crawlRedisTaskQueueKey' => 'crawl::crawlTask',
-    'downloadCoverRedisTaskQueueKey' => 'cover::download'
+    'downloadCoverRedisTaskQueueKey' => 'cover::download',
+    'jwtUserToken' => 'user::token::',
 ];

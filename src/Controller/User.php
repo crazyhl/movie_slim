@@ -35,7 +35,8 @@ class User extends BaseController
             // 用户不存在
             return $response->withJson([
                 'status' => -1,
-                'message' => '用户不存在'
+                'message' => '用户不存在',
+                'data' => '',
             ]);
         }
 
@@ -52,16 +53,22 @@ class User extends BaseController
 
             $jwtUtil = new JWT($this->container);
             $jwtToken = $jwtUtil->encode(['uid' => $user->id]);
+            // redis 保存一份 token 到 reids 中，
+            $redis = $this->container->redis;
+            $redis->set($this->container->get('redisKey')['jwtUserToken'] . $user->id, $jwtToken);
+
             // 登录成功
             return $response->withJson([
-                    'status' => 0,
-                    'message' => '登录成功',
-                ])->withHeader('JWT-Token', $jwtToken);
+                'status' => 0,
+                'message' => '登录成功',
+                'data' => '',
+            ])->withHeader('JWT-Token', $jwtToken);
         } else {
             // 没验证通过
             return $response->withJson([
                 'status' => -2,
-                'message' => '密码错误'
+                'message' => '密码错误',
+                'data' => '',
             ]);
         }
     }
