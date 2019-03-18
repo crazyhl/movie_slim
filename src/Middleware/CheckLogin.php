@@ -9,11 +9,13 @@
 namespace App\Middleware;
 
 
+use App\Controller\User;
 use App\Utils\JWT;
 use Jose\Component\Core\Converter\StandardConverter;
 use Slim\Container;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use App\Model\User as UserModel;
 
 class CheckLogin
 {
@@ -25,6 +27,8 @@ class CheckLogin
     public function __construct($container)
     {
         $this->container = $container;
+        // 初始化数据库连接
+        $this->container->get('db');
     }
 
 
@@ -37,6 +41,7 @@ class CheckLogin
      */
     public function __invoke(Request $request, Response $response, $next)
     {
+
         $authorization = $request->getHeader('Authorization')[0];
         if (empty($authorization)) {
             // 没有 jwt header
@@ -115,10 +120,11 @@ class CheckLogin
                     ]);
                     $redis->delete($redisUserTokenkey);
                 } else {
-                    // 如果都过了，就可以在header里面加上uid，让后续的请求使用了
+                    // 如果都过了，就可以在header里面加上uid 和 用户信息，让后续的请求使用了
+                    $user = UserModel::where('id', $uid)->first();
                     // 需要注意的是，这里返回的是一个新的request, withHeader
                     // 返回的是一个 clone 对象
-                    $newRequest = $request->withHeader('uid', $uid);
+                    $newRequest = $request->withHeader('uid', $uid)->withAttribute('user', $user);
                     // 重置token
                     $jwtUtil = new JWT($this->container);
                     $jwtToken = $jwtUtil->encode(['uid' => $uid]);
