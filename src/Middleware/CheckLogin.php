@@ -41,11 +41,11 @@ class CheckLogin
      */
     public function __invoke(Request $request, Response $response, $next)
     {
-
         $authorization = $request->getHeader('Authorization')[0];
         if (empty($authorization)) {
             // 没有 jwt header
-            $response->withJson([
+            $this->container->logger->info('123');
+            $response = $response->withJson([
                 'status' => -10000,
                 'message' => '请登陆后访问',
                 'data' => '',
@@ -53,7 +53,7 @@ class CheckLogin
         } else if (strpos($authorization, 'JWT ') !== 0) {
             // 没有以 JWT 开头
             // 没有 jwt header
-            $response->withJson([
+            $response = $response->withJson([
                 'status' => -10001,
                 'message' => '非法请求',
                 'data' => '',
@@ -85,7 +85,7 @@ class CheckLogin
 
             // 如果过期时间或者uid有一个是空，就说明数据有问题，重新登录就好了
             if (empty($exp) || empty($uid)) {
-                $response->withJson([
+                $response = $response->withJson([
                     'status' => -10002,
                     'message' => '登录信息无效，请重新登录',
                     'data' => '',
@@ -93,7 +93,7 @@ class CheckLogin
                 $redis->delete($redisUserTokenkey);
             } else if ($exp < time()) {
                 // exp 超时了
-                $response->withJson([
+                $response = $response->withJson([
                     'status' => -10003,
                     'message' => '登录信息失效，请重新登录',
                     'data' => '',
@@ -104,7 +104,7 @@ class CheckLogin
                 $redisToken = $redis->get($this->container->get('redisKey')['jwtUserToken'] . $uid);
                 if (empty($redisToken)) {
                     // 如果没有就说token是伪造的
-                    $response->withJson([
+                    $response = $response->withJson([
                         'status' => -10004,
                         'message' => '登录信息失效，请重新登录',
                         'data' => '',
@@ -113,7 +113,7 @@ class CheckLogin
                 } else if ($redisToken !== $jwtToken) {
                     // 传递过来的token 跟redis 的不同，就说明可能是被拦截了
                     // 如果没有就说token是伪造的
-                    $response->withJson([
+                    $response = $response->withJson([
                         'status' => -10005,
                         'message' => '登录信息失效，请重新登录',
                         'data' => '',
