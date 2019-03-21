@@ -44,7 +44,7 @@ class CheckLogin
         $authorization = $request->getHeader('Authorization')[0];
         if (empty($authorization)) {
             // 没有 jwt header
-            $this->container->logger->info('123');
+            $this->container->logger->info('$authorization: ' . $authorization);
             $response = $response->withJson([
                 'status' => -10000,
                 'message' => '请登陆后访问',
