@@ -44,7 +44,7 @@ class InitRoleAndAdmin extends Command
         $permission->slug = 'admin';
         $permission->description = '默认的超级管理员';
         $permission->save();
-        $output->writeln('管理员创建完毕2');
+        $output->writeln('权限创建完毕');
 
 
         $role = new Role();
@@ -53,7 +53,7 @@ class InitRoleAndAdmin extends Command
         $role->description = '默认的超级管理员';
         $role->save();
         $role->permissions()->attach($permission);
-        $output->writeln('管理员创建完毕1');
+        $output->writeln('角色创建完毕');
 
 
         $user = new User();
