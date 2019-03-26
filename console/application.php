@@ -18,7 +18,7 @@ use App\Command\DownloadCover;
 use App\Command\InitRoleAndAdmin;
 
 $application = new Application();
-$app->getContainer()->get('db');
+
 // TODO 这块等待注册各种 Command
 $application->add(new TestCommand($app->getContainer()));
 $application->add(new CreateDatabase($app->getContainer()));

@@ -37,7 +37,6 @@ class CreateDatabase extends Command
         /**
          * @var Manager
          */
-        // 初始化db
         //category 分类
         $tableName = 'category';
         Manager::schema()->dropIfExists($tableName);

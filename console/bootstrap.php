@@ -21,4 +21,6 @@ if (PHP_SAPI == 'cli') {
 
     // Set up dependencies
     require __DIR__ . '/../config/dependencies.php';
+    // 初始化 db 依赖
+    $app->getContainer()->get('db');
 }

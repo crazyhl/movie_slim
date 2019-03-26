@@ -4,7 +4,7 @@ $redisKeyConfig = require __DIR__ . '/redisKey.php';
 
 return [
     'redisKey' => $redisKeyConfig,
-    'jwtSignatureKey' => '_avTzfR0fatqKFdsv2SQkWUbuUPMXuBoGvuQNKZigTvCktCMkZ3S4626BiiJlVr9ldDbkPaJZsp_0q3vN5pXsHWz6BvX961arIHmfziwxiRyqBVTBRGiP-9t6iDfS2wpv3bXqqS7NwYUiaQzUrKm6jYjPKJ7LNpKBzKoiBbFcjs', // jwt 签名key , 这个key 使用 jwt:generateOctString 生成
+    'jwtSignatureKey' => '_itK1X1mnBHEcNdW3jOyBnrNMdzwRWCQvIDFHmOkBrnaU3_9TkJDBf-2jDsUi3S3vYYy8bm_sPo_touAoN29umJB46O7FrLQ5tZcTzw4ng7Bcfcc1zZ8ssThNPV9j4MEtjMNPeAdET0aKTeE5H1qztzCIpMFB5HdKg6Cem56Vhs', // jwt 签名key , 这个key 使用 jwt:generateOctString 生成
     'jwtIss' => 'yourJwtIss', // jwt iss
     'jwtAud' => 'youreJwtAud', // jwt aud
     'jwtExp' => 3600, // jwt 默认有效期
@@ -24,7 +24,7 @@ return [
             'host' => 'mysql',
             'port' => '3306',
             'database' => 'movie',
-            'username' => 'crazyhl',
+            'username' => 'root',
             'password' => '123456789',
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_general_ci',
