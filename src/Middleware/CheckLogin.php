@@ -124,7 +124,7 @@ class CheckLogin
                     $user = UserModel::where('id', $uid)->first();
                     // 需要注意的是，这里返回的是一个新的request, withHeader
                     // 返回的是一个 clone 对象
-                    $newRequest = $request->withHeader('uid', $uid)->withAttribute('user', $user);
+                    $newRequest = $request->withAttribute('uid', $uid)->withAttribute('user', $user);
                     // 重置token
                     $jwtUtil = new JWT($this->container);
                     $jwtToken = $jwtUtil->encode(['uid' => $uid]);

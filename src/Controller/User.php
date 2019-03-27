@@ -73,5 +73,22 @@ class User extends BaseController
         }
     }
 
+    public function logout(Request $request, Response $response)
+    {
+        $user = $request->getAttribute('user');
+        $uid = $request->getAttribute('uid');
+        $this->container->logger->info("uid: " . $uid);
+        /**
+         * @var \Redis $redis
+         */
+        $redis = $this->container->redis;
+        // 清除redis
+        $redis->delete($this->container->get('redisKey')['jwtUserToken'] . $uid);
 
+        return $response->withoutHeader('JWT-Token')->withJson([
+            'status' => 0,
+            'message' => '登出成功',
+            'data' => '',
+        ]);
+    }
 }

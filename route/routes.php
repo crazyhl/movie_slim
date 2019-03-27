@@ -8,6 +8,7 @@ use Slim\Http\Response;
 $app->post('/login', \App\Controller\User::class . ':login');
 
 $app->group('', function () use ($app) {
+    $app->post('/logout', \App\Controller\User::class . ':logout');
     $this->get('/asdf', \App\Controller\TestController::class . ':test') ;
     $this->get('/asdf123', \App\Controller\TestController::class . ':test') ;
 
