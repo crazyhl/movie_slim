@@ -244,10 +244,11 @@ class CreateDatabase extends Command
         Manager::schema()->dropIfExists($tableName);
         Manager::schema()->create($tableName, function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name', 32)->comment('权限名称');
-            $table->string('slug', 32)->unique()->comment('英文别名');
+            $table->string('name', 32)->comment('菜单名称');
             $table->string('description', 255)->comment('权限说明');
-            $table->string('url', 255)->comment('url');
+            $table->string('url', 255)->unique()->comment('url');
+            $table->integer('order')->unsigned()->default(0)->comment('排序');
+            $table->integer('parent')->unsigned()->default(0)->comment('父级菜单');
             $table->boolean('is_open')->default(1)->index()->comment('是否启用');
             $table->tinyInteger('position')->default(1)->comment('位置 0 前台 1 后台');
             $table->timestamps();

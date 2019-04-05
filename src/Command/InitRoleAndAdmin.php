@@ -9,6 +9,7 @@
 namespace App\Command;
 
 
+use App\Model\Menu;
 use App\Model\Permission;
 use App\Model\Role;
 use App\Model\User;
@@ -64,5 +65,47 @@ class InitRoleAndAdmin extends Command
         $user->permissions()->attach($permission);
 
         $output->writeln('管理员创建完毕');
+
+        $menu = new Menu();
+        $menu->name = '系统设置';
+        $menu->description = '设置页面';
+        $menu->url = '/admin/settings';
+        $menu->position = 1;
+        $menu->is_open = 1;
+        $menu->save();
+
+        $menu->permissions()->attach($permission);
+
+        $menu = new Menu();
+        $menu->name = '菜单管理';
+        $menu->description = '菜单管理';
+        $menu->url = '/admin/menu';
+        $menu->position = 1;
+        $menu->is_open = 1;
+        $menu->save();
+
+        $menu->permissions()->attach($permission);
+
+        $menu = new Menu();
+        $menu->name = '权限管理';
+        $menu->description = '权限管理';
+        $menu->url = '/admin/permissions';
+        $menu->position = 1;
+        $menu->is_open = 1;
+        $menu->save();
+
+        $menu->permissions()->attach($permission);
+
+        $menu = new Menu();
+        $menu->name = '角色管理';
+        $menu->description = '角色管理';
+        $menu->url = '/admin/role';
+        $menu->position = 1;
+        $menu->is_open = 1;
+        $menu->save();
+
+        $menu->permissions()->attach($permission);
+
+        $output->writeln('管理员菜单创建完毕');
     }
 }
