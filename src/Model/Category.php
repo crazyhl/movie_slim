@@ -14,4 +14,8 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     protected $table = 'category';
+
+    public function permissions() {
+        return $this->morphToMany(Permission::class, 'model', 'permission_model_relation');
+    }
 }

@@ -11,6 +11,7 @@ namespace App\Command;
 
 use App\Model\Category;
 use App\Model\CategorySourceCategoryRelation;
+use App\Model\Permission;
 use App\Model\SourceInfo;
 use App\Utils;
 use Illuminate\Database\Capsule\Manager;
@@ -114,15 +115,23 @@ class AddTestData extends Command
 //        $output->writeln([
 //            '测试数据填充成功',
 //        ]);
-        /**
-         * @var $db Manager
-         */
-        $db = $this->container->get('db');
-        $db->getConnection()->enableQueryLog();
-        $user = \App\Model\User::with('roles', 'permissions')->find(1);
-        var_dump($user->roles);
-        var_dump($user->permissions);
-        $log = $db->getConnection()->getQueryLog();
-        var_dump($log);
+//        /**
+//         * @var $db Manager
+//         */
+//        $db = $this->container->get('db');
+//        $db->getConnection()->enableQueryLog();
+//        $user = \App\Model\User::with('roles', 'permissions')->find(1);
+//        var_dump($user->roles);
+//        var_dump($user->permissions);
+//        $log = $db->getConnection()->getQueryLog();
+//        var_dump($log);
+        $category = Category::find(2);
+        $permission = new Permission();
+        $permission->name = ' testPermission2';
+        $permission->slug = ' testPermission2';
+        $permission->description = '';
+        $permission->save();
+
+        $category->permissions()->attach($permission);
     }
 }

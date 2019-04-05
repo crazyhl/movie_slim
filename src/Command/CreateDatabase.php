@@ -238,6 +238,38 @@ class CreateDatabase extends Command
         });
         $output->writeln($tableName . ' 表创建完毕');
 
+        // menu 菜单表
+        // 计划是所有的菜单现在这边创建好，然后再去代码那边写代码
+        $tableName = 'menu';
+        Manager::schema()->dropIfExists($tableName);
+        Manager::schema()->create($tableName, function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name', 32)->comment('权限名称');
+            $table->string('slug', 32)->unique()->comment('英文别名');
+            $table->string('description', 255)->comment('权限说明');
+            $table->string('url', 255)->comment('url');
+            $table->boolean('is_open')->default(1)->index()->comment('是否启用');
+            $table->tinyInteger('position')->default(1)->comment('位置 0 前台 1 后台');
+            $table->timestamps();
+        });
+        $output->writeln($tableName . ' 表创建完毕');
+
+        //permission_model 用户模型关系表
+        $tableName = 'permission_model_relation';
+        Manager::schema()->dropIfExists($tableName);
+        Manager::schema()->create($tableName, function (Blueprint $table) {
+            $table->integer('permission_id')->unsigned();
+            $table->integer('model_id')->unsigned();
+            $table->string('model_type', 255);
+            // 设置一个双主键
+            $table->primary([
+                'permission_id',
+                'model_id',
+                'model_type',
+            ], 'permission_model_type');
+        });
+        $output->writeln($tableName . ' 表创建完毕');
+
         $output->writeln([
             '数据库都创建好了',
         ]);
