@@ -62,15 +62,27 @@ class InitRoleAndAdmin extends Command
         $user->password = $input->getOption('password');
         $user->save();
         $user->roles()->attach($role);
-        $user->permissions()->attach($permission);
+//        $user->permissions()->attach($permission);
 
         $output->writeln('管理员创建完毕');
+
+        $systemMenu = new Menu();
+        $systemMenu->name = '系统管理';
+        $systemMenu->description = '系统管理';
+        $systemMenu->url = '';
+        $systemMenu->position = 1;
+        $systemMenu->is_open = 1;
+        $systemMenu->save();
+
+        $systemMenu->permissions()->attach($permission);
 
         $menu = new Menu();
         $menu->name = '系统设置';
         $menu->description = '设置页面';
         $menu->url = '/admin/settings';
+        $menu->parent = $systemMenu->id;
         $menu->position = 1;
+        $menu->order = 1;
         $menu->is_open = 1;
         $menu->save();
 
@@ -80,7 +92,9 @@ class InitRoleAndAdmin extends Command
         $menu->name = '菜单管理';
         $menu->description = '菜单管理';
         $menu->url = '/admin/menu';
+        $menu->parent = $systemMenu->id;
         $menu->position = 1;
+        $menu->order = 2;
         $menu->is_open = 1;
         $menu->save();
 
@@ -90,7 +104,9 @@ class InitRoleAndAdmin extends Command
         $menu->name = '权限管理';
         $menu->description = '权限管理';
         $menu->url = '/admin/permissions';
+        $menu->parent = $systemMenu->id;
         $menu->position = 1;
+        $menu->order = 3;
         $menu->is_open = 1;
         $menu->save();
 
@@ -100,7 +116,9 @@ class InitRoleAndAdmin extends Command
         $menu->name = '角色管理';
         $menu->description = '角色管理';
         $menu->url = '/admin/role';
+        $menu->parent = $systemMenu->id;
         $menu->position = 1;
+        $menu->order = 4;
         $menu->is_open = 1;
         $menu->save();
 

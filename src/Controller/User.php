@@ -9,6 +9,7 @@
 namespace App\Controller;
 
 
+use App\Model\Menu;
 use App\Utils\JWT;
 use Slim\Http\Cookies;
 use Slim\Http\Request;
@@ -75,7 +76,7 @@ class User extends BaseController
 
     public function logout(Request $request, Response $response)
     {
-        $user = $request->getAttribute('user');
+//        $user = $request->getAttribute('user');
         $uid = $request->getAttribute('uid');
         $this->container->logger->info("uid: " . $uid);
         /**
@@ -89,6 +90,90 @@ class User extends BaseController
             'status' => 0,
             'message' => '登出成功',
             'data' => '',
+        ]);
+    }
+
+    /**
+     * 获取用户信息
+     * @param Request $request
+     * @param Response $response
+     * @return Response
+     */
+    public function info(Request $request, Response $response)
+    {
+        $user = $request->getAttribute('user');
+
+        return $response->withJson([
+            'status' => 0,
+            'message' => '',
+            'data' => $user,
+        ]);
+    }
+
+    /**
+     * 获取用户菜单
+     * @param Request $request
+     * @param Response $response
+     * @param $args
+     * @return Response
+     */
+    public function getMenu(Request $request, Response $response, $args)
+    {
+        $position = $args['position'];
+        $user = $request->getAttribute('user');
+        $rolePermissions = $user->getRolePermissions();
+        // 得到了所有的权限id
+        $rolePermissionIds = array_column($rolePermissions, 'id');
+        $rolePermissionSlugs = array_column($rolePermissions, 'slug');
+        $isAdmin = false;
+        if (in_array('admin', $rolePermissionSlugs)) {
+            $isAdmin = true;
+        }
+        // 根据 position 获取菜单
+        $menus = Menu::where('position', '=', $position)
+            ->where('is_open', '=', '1')
+            ->with('permissions')
+            ->orderBy('parent', 'ASC')
+            ->orderBy('order', 'DESC')
+            ->get();
+
+        $userMenus = [];
+        foreach ($menus as $menu) {
+            $addToUser = false;
+            if (!$isAdmin && $menu->permissions) {
+                foreach ($menu->permissions as $menuPermission) {
+                    if (in_array($menuPermission, $rolePermissionIds)) {
+                        $addToUser = true;
+                        break;
+                    }
+                }
+            } else {
+                $addToUser = true;
+            }
+
+            if ($addToUser) {
+                $menuArray = $menu->toArray();
+                unset($menuArray['permissions']);
+                unset($menuArray['updated_at']);
+                unset($menuArray['created_at']);
+                unset($menuArray['position']);
+                unset($menuArray['is_open']);
+                unset($menuArray['parent']);
+                unset($menuArray['order']);
+                unset($menuArray['id']);
+                if ($menu->parent == 0) {
+                    $menuArray['children'] = [];
+                    $userMenus[$menu->id] = $menuArray;
+                } else {
+                    $userMenus[$menu->parent]['children'][] = $menuArray;
+                }
+            }
+        }
+
+        return $response->withJson([
+            'status' => 0,
+            'message' => '',
+            'data' => array_values($userMenus),
         ]);
     }
 }
