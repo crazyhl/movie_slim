@@ -246,6 +246,7 @@ class CreateDatabase extends Command
             $table->increments('id');
             $table->string('name', 32)->comment('菜单名称');
             $table->string('description', 255)->comment('权限说明');
+            $table->string('icon', 255)->comment('图标');
             $table->string('url', 255)->unique()->comment('url');
             $table->integer('order')->unsigned()->default(0)->comment('排序');
             $table->integer('parent')->unsigned()->default(0)->comment('父级菜单');

@@ -72,6 +72,7 @@ class InitRoleAndAdmin extends Command
         $systemMenu->url = '';
         $systemMenu->position = 1;
         $systemMenu->is_open = 1;
+        $systemMenu->icon = 'ios-cog-outline';
         $systemMenu->save();
 
         $systemMenu->permissions()->attach($permission);
@@ -84,6 +85,7 @@ class InitRoleAndAdmin extends Command
         $menu->position = 1;
         $menu->order = 1;
         $menu->is_open = 1;
+        $menu->icon = 'ios-cog-outline';
         $menu->save();
 
         $menu->permissions()->attach($permission);
@@ -96,6 +98,7 @@ class InitRoleAndAdmin extends Command
         $menu->position = 1;
         $menu->order = 2;
         $menu->is_open = 1;
+        $menu->icon = 'ios-menu-outline';
         $menu->save();
 
         $menu->permissions()->attach($permission);
@@ -108,6 +111,7 @@ class InitRoleAndAdmin extends Command
         $menu->position = 1;
         $menu->order = 3;
         $menu->is_open = 1;
+        $menu->icon = 'ios-lock-outline';
         $menu->save();
 
         $menu->permissions()->attach($permission);
@@ -120,6 +124,7 @@ class InitRoleAndAdmin extends Command
         $menu->position = 1;
         $menu->order = 4;
         $menu->is_open = 1;
+        $menu->icon = 'ios-people-outline';
         $menu->save();
 
         $menu->permissions()->attach($permission);
