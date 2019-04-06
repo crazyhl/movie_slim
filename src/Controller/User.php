@@ -160,7 +160,6 @@ class User extends BaseController
                 unset($menuArray['is_open']);
                 unset($menuArray['parent']);
                 unset($menuArray['order']);
-                unset($menuArray['id']);
                 if ($menu->parent == 0) {
                     $menuArray['children'] = [];
                     $userMenus[$menu->id] = $menuArray;
