@@ -80,7 +80,7 @@ class InitRoleAndAdmin extends Command
         $menu = new Menu();
         $menu->name = '系统设置';
         $menu->description = '设置页面';
-        $menu->url = '/admin/settings';
+        $menu->url = '/admin/setting';
         $menu->parent = $systemMenu->id;
         $menu->position = 1;
         $menu->order = 1;
@@ -106,7 +106,7 @@ class InitRoleAndAdmin extends Command
         $menu = new Menu();
         $menu->name = '权限管理';
         $menu->description = '权限管理';
-        $menu->url = '/admin/permissions';
+        $menu->url = '/admin/permission';
         $menu->parent = $systemMenu->id;
         $menu->position = 1;
         $menu->order = 3;
