@@ -206,6 +206,13 @@ class CreateDatabase extends Command
             $table->string('description', 255)->comment('权限说明');
             $table->boolean('is_open')->default(1)->index()->comment('是否启用');
             $table->integer('expire')->default(0)->comment('有效期');
+            // 这个就是是指不是我们后台手工添加的，而是指在相关模型操作的时候，隐试绑定的特殊权限,也就是专属菜单
+            // 那权限也需要考虑是否添加在这结果相关的字段个字段了
+            $table->boolean('is_model_hidden_bind')->default(0)->index()
+                ->comment('是否是模型隐式绑定');
+            $table->integer('model_id')->default(0)->unsigned();
+            $table->string('model_type', 255)->default('');
+
             $table->timestamps();
         });
         $output->writeln($tableName . ' 表创建完毕');
@@ -240,6 +247,7 @@ class CreateDatabase extends Command
 
         // menu 菜单表
         // 计划是所有的菜单现在这边创建好，然后再去代码那边写代码
+        // 增加一个跟model的绑定相关字段，一个菜单目前看来只会跟一个主model 绑定
         $tableName = 'menu';
         Manager::schema()->dropIfExists($tableName);
         Manager::schema()->create($tableName, function (Blueprint $table) {
@@ -251,8 +259,16 @@ class CreateDatabase extends Command
             $table->integer('order')->unsigned()->default(0)->comment('排序');
             $table->integer('parent')->unsigned()->default(0)->comment('父级菜单');
             $table->boolean('is_open')->default(1)->index()->comment('是否启用');
-            $table->boolean('is_show')->default(1)->index()->comment('是否显示，如果不显示基本上都是页面内菜单');
+            $table->boolean('is_show')->default(1)->index()
+                ->comment('是否显示，如果不显示基本上都是页面内菜单');
             $table->tinyInteger('position')->default(1)->comment('位置 0 前台 1 后台');
+            // 这个就是是指不是我们后台手工添加的，而是指在相关模型操作的时候，隐试绑定的特殊权限,也就是专属菜单
+            // 那权限也需要考虑是否添加在这结果相关的字段个字段了
+            $table->boolean('is_model_hidden_bind')->default(0)->index()
+                ->comment('是否是模型隐式绑定');
+            $table->integer('model_id')->default(0)->unsigned();
+            $table->string('model_type', 255)->default('');
+
             $table->timestamps();
         });
         $output->writeln($tableName . ' 表创建完毕');
