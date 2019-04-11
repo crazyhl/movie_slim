@@ -132,6 +132,7 @@ class User extends BaseController
         // 根据 position 获取菜单
         $menus = Menu::where('position', '=', $position)
             ->where('is_open', '=', '1')
+            ->where('is_show', '=', '1')
             ->with('permissions')
             ->orderBy('parent', 'ASC')
             ->orderBy('order', 'DESC')

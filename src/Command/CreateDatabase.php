@@ -251,6 +251,7 @@ class CreateDatabase extends Command
             $table->integer('order')->unsigned()->default(0)->comment('排序');
             $table->integer('parent')->unsigned()->default(0)->comment('父级菜单');
             $table->boolean('is_open')->default(1)->index()->comment('是否启用');
+            $table->boolean('is_show')->default(1)->index()->comment('是否显示，如果不显示基本上都是页面内菜单');
             $table->tinyInteger('position')->default(1)->comment('位置 0 前台 1 后台');
             $table->timestamps();
         });
