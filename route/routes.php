@@ -13,5 +13,8 @@ $app->group('', function () use ($app) {
         $this->get('/userInfo', \App\Controller\User::class . ':info') ;
         $this->get('/getMenu/{position}', \App\Controller\User::class . ':getMenu') ;
     });
+
+
 // 这里面的所有请求都会检测是否未登录
-})->add(new \App\Middleware\CheckLogin($app->getContainer()));
+})->add(new \App\Middleware\CheckLogin($app->getContainer()))
+->add(new \App\Middleware\CheckUrl($app->getContainer()));
