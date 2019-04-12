@@ -81,7 +81,7 @@ class CheckLogin
             $exp = $payLoadArr['exp'];
             $uid = $payLoadArr['uid'];
 
-            $redisUserTokenkey = $this->container->get('redisKey')['jwtUserToken'] . $uid;
+            $redisUserTokenKey = $this->container->get('redisKey')['jwtUserToken'] . $uid;
 
             // 如果过期时间或者uid有一个是空，就说明数据有问题，重新登录就好了
             if (empty($exp) || empty($uid)) {
@@ -90,7 +90,7 @@ class CheckLogin
                     'message' => '登录信息无效，请重新登录',
                     'data' => '',
                 ]);
-                $redis->delete($redisUserTokenkey);
+                $redis->delete($redisUserTokenKey);
             } else if ($exp < time()) {
                 // exp 超时了
                 $response = $response->withJson([
@@ -98,7 +98,7 @@ class CheckLogin
                     'message' => '登录信息失效，请重新登录',
                     'data' => '',
                 ]);
-                $redis->delete($redisUserTokenkey);
+                $redis->delete($redisUserTokenKey);
             } else {
                 // 从redis中获取token
                 $redisToken = $redis->get($this->container->get('redisKey')['jwtUserToken'] . $uid);
@@ -109,7 +109,7 @@ class CheckLogin
                         'message' => '登录信息失效，请重新登录',
                         'data' => '',
                     ]);
-                    $redis->delete($redisUserTokenkey);
+                    $redis->delete($redisUserTokenKey);
                 } else if ($redisToken !== $jwtToken) {
                     // 传递过来的token 跟redis 的不同，就说明可能是被拦截了
                     // 如果没有就说token是伪造的
@@ -118,7 +118,7 @@ class CheckLogin
                         'message' => '登录信息失效，请重新登录',
                         'data' => '',
                     ]);
-                    $redis->delete($redisUserTokenkey);
+                    $redis->delete($redisUserTokenKey);
                 } else {
                     // 如果都过了，就可以在header里面加上uid 和 用户信息，让后续的请求使用了
                     $user = UserModel::where('id', $uid)->first();
@@ -129,7 +129,7 @@ class CheckLogin
                     $jwtUtil = new JWT($this->container);
                     $jwtToken = $jwtUtil->encode(['uid' => $uid]);
                     // redis 保存一份 token 到 reids 中，
-                    $redis->set($this->container->get('redisKey')['jwtUserToken'] . $uid, $jwtToken);
+                    $redis->set($this->container->get('redisKey')['jwtUserToken'] . $uid, $jwtToken, $this->container->get('jwtExp'));
                     // 重新放到header中
                     $newResponse = $response->withHeader('JWT-Token', $jwtToken);
                     $response = $next($newRequest, $newResponse);

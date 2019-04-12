@@ -56,7 +56,7 @@ class User extends BaseController
             $jwtToken = $jwtUtil->encode(['uid' => $user->id]);
             // redis 保存一份 token 到 reids 中，
             $redis = $this->container->redis;
-            $redis->set($this->container->get('redisKey')['jwtUserToken'] . $user->id, $jwtToken);
+            $redis->set($this->container->get('redisKey')['jwtUserToken'] . $user->id, $jwtToken, $this->container->get('jwtExp'));
 
             // 登录成功
             return $response->withJson([
