@@ -15,7 +15,7 @@ $app->group('', function () use ($app) {
     $app->group('/admin', function () use ($app) {
         // 角色相关
         $app->group('/role', function () use ($app) {
-            $app->get('', \App\Controller\Role::class . ':info');
+            $app->get('', \App\Controller\Role::class . ':lists');
         });
     });
 // 这里面的所有请求都会检测是否未登录

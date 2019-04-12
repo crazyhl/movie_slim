@@ -11,6 +11,7 @@ namespace App\Controller;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
+use App\Model\Role as RoleModel;
 
 class Role extends BaseController
 {
@@ -20,12 +21,14 @@ class Role extends BaseController
      * @param Response $response
      * @return Response
      */
-    public function info(Request $request, Response $response)
+    public function lists(Request $request, Response $response)
     {
+        $roleList = RoleModel::paginate(15);
+
         return $response->withJson([
             'status' => 0,
             'message' => '',
-            'data' => 'asdf',
+            'data' => $roleList,
         ]);
     }
 }

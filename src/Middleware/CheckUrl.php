@@ -46,6 +46,7 @@ class CheckUrl
     public function __invoke(Request $request, Response $response, $next)
     {
         $this->container->logger->info('path: ' . $request->getUri()->getPath());
+        // 如果url为空或者 need_permissions 为空就可以直接过，否则就得查权限了
         $response = $next($request, $response);
 
         return $response;
