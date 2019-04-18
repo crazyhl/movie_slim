@@ -51,6 +51,13 @@ class CheckUrl
         if ($route) {
             $arguments = $route->getArguments();
             $this->container->logger->info('route arguments: ' . json_encode($arguments));
+            if ($arguments) {
+                $url = '/test/1/abcde/abc/1';
+                foreach ($arguments as $item)
+                {
+                    $url = preg_replace('~/' . $item . '([/^*])~', '/*${1}', $url, 1);
+                }
+            }
         }
         // 如果url为空或者 need_permissions 为空就可以直接过，否则就得查权限了
         // 这里会把path 根据 arguments 替换为 * 然后去查询权限，这样，估计就可以支持想法的了

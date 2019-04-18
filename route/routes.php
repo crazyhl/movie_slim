@@ -5,6 +5,7 @@
 $app->post('/login', \App\Controller\User::class . ':login');
 $app->get('/test', \App\Controller\TestController::class . ':test')->add(new \App\Middleware\CheckUrl($app->getContainer()));
 $app->get('/testaddf/{id}', \App\Controller\TestController::class . ':test')->add(new \App\Middleware\CheckUrl($app->getContainer()));
+$app->get('/testasdf/{name}/{id}/{age}', \App\Controller\TestController::class . ':test')->add(new \App\Middleware\CheckUrl($app->getContainer()));
 $app->get('/', \App\Controller\TestController::class . ':test');
 
 $app->group('', function () use ($app) {
