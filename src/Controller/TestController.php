@@ -9,6 +9,7 @@
 namespace App\Controller;
 
 
+use Carbon\Carbon;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -17,8 +18,10 @@ class TestController extends BaseController
     public function test(Request $request, Response $response, $args)
     {
         // Sample log message
-        $this->logger->info("Slim-Skeleton '/' route");
+//        $this->logger->info("Slim-Skeleton '/' route");
+        $this->container->logger->info('$args: ' . json_encode($args));
 
+        Carbon::now()->startOfDay();
         // Render index view
         return $response->getBody()->write('home ' . $args['name']);
     }

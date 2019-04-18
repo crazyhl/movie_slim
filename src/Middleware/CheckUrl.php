@@ -46,7 +46,14 @@ class CheckUrl
     public function __invoke(Request $request, Response $response, $next)
     {
         $this->container->logger->info('path: ' . $request->getUri()->getPath());
+        $requestPath = $request->getUri()->getPath();
+        $route = $request->getAttribute('route');
+        if ($route) {
+            $arguments = $route->getArguments();
+            $this->container->logger->info('route arguments: ' . json_encode($arguments));
+        }
         // 如果url为空或者 need_permissions 为空就可以直接过，否则就得查权限了
+        // 这里会把path 根据 arguments 替换为 * 然后去查询权限，这样，估计就可以支持想法的了
         $response = $next($request, $response);
 
         return $response;
