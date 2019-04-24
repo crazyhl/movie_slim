@@ -20,6 +20,10 @@ $app->group('', function () use ($app) {
         // 角色相关
         $app->group('/role', function () use ($app) {
             $app->get('', \App\Controller\Role::class . ':lists');
+        })->add(new \App\Middleware\CheckRole($app->getContainer()));
+        // 菜单相关
+        $app->group('/menu', function () use ($app) {
+            $app->get('[/{parentId:[0-9]+}]', \App\Controller\Menu::class . ':lists');
         });
     });
 // 这里面的所有请求都会检测是否未登录

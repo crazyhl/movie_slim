@@ -22,6 +22,9 @@ class TestController extends BaseController
         $this->container->logger->info('$args: ' . json_encode($args));
 
         Carbon::now()->startOfDay();
+        $menus = \App\Model\Menu::with('childrenMenu')->get();
+        $this->container->logger->info('$menus: ' . json_encode($menus));
+
         // Render index view
         return $response->getBody()->write('home ' . $args['name']);
     }

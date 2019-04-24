@@ -11,19 +11,22 @@ namespace App\Controller;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
-use App\Model\Role as RoleModel;
+use App\Model\Menu as MenuModel;
 
-class Role extends BaseController
+class Menu extends BaseController
 {
     /**
-     * 获取用户信息
+     * 获取菜单列表
      * @param Request $request
      * @param Response $response
      * @return Response
      */
-    public function lists(Request $request, Response $response)
+    public function lists(Request $request, Response $response, $args)
     {
-        $roleList = RoleModel::paginate(20);
+        $parentId  = $args['parentId'] ?: 0;
+        $this->container->logger->info('$parentId: ' . $parentId);
+
+        $roleList = MenuModel::where('parent', '=', $parentId)->paginate(20);
 
         return $response->withJson([
             'status' => 0,

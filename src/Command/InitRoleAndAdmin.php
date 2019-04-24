@@ -72,7 +72,6 @@ class InitRoleAndAdmin extends Command
         $systemMenu->url = '';
         $systemMenu->position = 1;
         $systemMenu->is_open = 1;
-        $systemMenu->need_permissions = 1;
         $systemMenu->icon = 'ios-cog-outline';
         $systemMenu->save();
 
@@ -85,7 +84,6 @@ class InitRoleAndAdmin extends Command
         $menu->parent = $systemMenu->id;
         $menu->position = 1;
         $menu->order = 1;
-        $menu->need_permissions = 1;
         $menu->is_open = 1;
         $menu->icon = 'ios-cog-outline';
         $menu->save();
@@ -98,7 +96,6 @@ class InitRoleAndAdmin extends Command
         $menu->url = '/admin/menu';
         $menu->parent = $systemMenu->id;
         $menu->position = 1;
-        $menu->need_permissions = 1;
         $menu->order = 2;
         $menu->is_open = 1;
         $menu->icon = 'ios-menu-outline';
@@ -113,7 +110,6 @@ class InitRoleAndAdmin extends Command
         $menu->parent = $systemMenu->id;
         $menu->position = 1;
         $menu->order = 3;
-        $menu->need_permissions = 1;
         $menu->is_open = 1;
         $menu->icon = 'ios-lock-outline';
         $menu->save();
@@ -127,9 +123,21 @@ class InitRoleAndAdmin extends Command
         $menu->parent = $systemMenu->id;
         $menu->position = 1;
         $menu->order = 4;
-        $menu->need_permissions = 1;
         $menu->is_open = 1;
         $menu->icon = 'ios-people-outline';
+        $menu->save();
+
+        $menu->permissions()->attach($permission);
+
+        $menu = new Menu();
+        $menu->name = '用户管理';
+        $menu->description = '用户管理';
+        $menu->url = '/admin/user';
+        $menu->parent = $systemMenu->id;
+        $menu->position = 1;
+        $menu->order = 5;
+        $menu->is_open = 1;
+        $menu->icon = 'ios-contact-outline';
         $menu->save();
 
         $menu->permissions()->attach($permission);
