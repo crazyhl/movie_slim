@@ -70,6 +70,7 @@ class InitRoleAndAdmin extends Command
         $systemMenu->name = '系统管理';
         $systemMenu->description = '系统管理';
         $systemMenu->url = '';
+        $systemMenu->slug = 'systemSetting';
         $systemMenu->position = 1;
         $systemMenu->is_open = 1;
         $systemMenu->icon = 'ios-cog-outline';
