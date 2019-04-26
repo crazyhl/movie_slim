@@ -24,7 +24,6 @@ class Menu extends BaseController
     public function lists(Request $request, Response $response, $args)
     {
         $parentId = $args['parentId'] ?: 0;
-        $this->container->logger->info('$parentId: ' . $parentId);
 
         $roleList = MenuModel::where('parent', '=', $parentId)->paginate(20);
 

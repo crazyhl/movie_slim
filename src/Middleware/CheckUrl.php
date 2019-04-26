@@ -45,17 +45,14 @@ class CheckUrl
      */
     public function __invoke(Request $request, Response $response, $next)
     {
-        $this->container->logger->info('path: ' . $request->getUri()->getPath());
         $requestPath = $request->getUri()->getPath();
         $route = $request->getAttribute('route');
         if ($route) {
             $arguments = $route->getArguments();
-            $this->container->logger->info('route arguments: ' . json_encode($arguments));
             if ($arguments) {
-                $url = '/test/1/abcde/abc/1';
                 foreach ($arguments as $item)
                 {
-                    $url = preg_replace('~/' . $item . '([/^*])~', '/*${1}', $url, 1);
+                    $url = preg_replace('~/' . $item . '([/^*])~', '/*${1}', $requestPath, 1);
                 }
             }
         }

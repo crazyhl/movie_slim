@@ -79,7 +79,6 @@ class User extends BaseController
     {
 //        $user = $request->getAttribute('user');
         $uid = $request->getAttribute('uid');
-        $this->container->logger->info("uid: " . $uid);
         /**
          * @var \Redis $redis
          */
