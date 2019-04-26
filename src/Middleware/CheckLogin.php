@@ -100,8 +100,9 @@ class CheckLogin
                 ]);
                 $redis->delete($redisUserTokenKey);
             } else {
+                $oldRedisMd5Key = md5($this->container->get('redisKey')['jwtUserToken'] . $uid . $jwtToken);
                 // 从redis中获取token
-                $redisToken = $redis->get($this->container->get('redisKey')['jwtUserToken'] . $uid);
+                $redisToken = $redis->get($oldRedisMd5Key);
                 if (empty($redisToken)) {
                     // 如果没有就说token是伪造的
                     $response = $response->withJson([
@@ -125,11 +126,15 @@ class CheckLogin
                     // 需要注意的是，这里返回的是一个新的request, withHeader
                     // 返回的是一个 clone 对象
                     $newRequest = $request->withAttribute('uid', $uid)->withAttribute('user', $user);
-                    // 重置token
+                    // 调整旧token 有效期 有效期为10秒，争取减少各种危害
+                    $redis->set($oldRedisMd5Key, $jwtToken, 10);
+                    // 设置新token
                     $jwtUtil = new JWT($this->container);
                     $jwtToken = $jwtUtil->encode(['uid' => $uid]);
                     // redis 保存一份 token 到 reids 中，
-                    $redis->set($this->container->get('redisKey')['jwtUserToken'] . $uid, $jwtToken, $this->container->get('jwtExp'));
+                    $redisMd5Key = md5($this->container->get('redisKey')['jwtUserToken'] . $user->id . $jwtToken);
+                    $redis->set($redisMd5Key, $jwtToken, $this->container->get('jwtExp'));
+
                     // 重新放到header中
                     $newResponse = $response->withHeader('JWT-Token', $jwtToken);
                     $response = $next($newRequest, $newResponse);
