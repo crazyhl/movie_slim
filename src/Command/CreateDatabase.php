@@ -253,6 +253,7 @@ class CreateDatabase extends Command
         Manager::schema()->create($tableName, function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 32)->comment('菜单名称');
+            $table->string('slug', 32)->default('')->comment('别名，这个就对应前端的路由name，用来处理菜单高亮以及展开');
             $table->string('description', 255)->comment('权限说明');
             $table->string('icon', 255)->comment('图标');
             $table->string('url', 255)->unique()->comment('url');

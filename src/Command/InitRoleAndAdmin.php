@@ -81,6 +81,7 @@ class InitRoleAndAdmin extends Command
         $menu->name = '系统设置';
         $menu->description = '设置页面';
         $menu->url = '/admin/setting';
+        $menu->slug = 'adminSetting';
         $menu->parent = $systemMenu->id;
         $menu->position = 1;
         $menu->order = 1;
@@ -94,6 +95,7 @@ class InitRoleAndAdmin extends Command
         $menu->name = '菜单管理';
         $menu->description = '菜单管理';
         $menu->url = '/admin/menu';
+        $menu->slug = 'adminMenu';
         $menu->parent = $systemMenu->id;
         $menu->position = 1;
         $menu->order = 2;
@@ -107,6 +109,7 @@ class InitRoleAndAdmin extends Command
         $menu->name = '权限管理';
         $menu->description = '权限管理';
         $menu->url = '/admin/permission';
+        $menu->slug = 'adminPermission';
         $menu->parent = $systemMenu->id;
         $menu->position = 1;
         $menu->order = 3;
@@ -120,6 +123,7 @@ class InitRoleAndAdmin extends Command
         $menu->name = '角色管理';
         $menu->description = '角色管理';
         $menu->url = '/admin/role';
+        $menu->slug = 'adminRole';
         $menu->parent = $systemMenu->id;
         $menu->position = 1;
         $menu->order = 4;
@@ -133,6 +137,7 @@ class InitRoleAndAdmin extends Command
         $menu->name = '用户管理';
         $menu->description = '用户管理';
         $menu->url = '/admin/user';
+        $menu->slug = 'adminUser';
         $menu->parent = $systemMenu->id;
         $menu->position = 1;
         $menu->order = 5;
