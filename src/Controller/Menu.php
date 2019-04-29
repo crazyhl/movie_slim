@@ -145,7 +145,7 @@ class Menu extends BaseController
         $menuIdArr = array_column($menuList, 'id');
 
         foreach ($menuList as $key => &$menuItem) {
-            if ($menuItem['parent'] != 0 && $menuList[array_search($menuItem['parent'], $menuIdArr)]) {
+            if ($menuList[array_search($menuItem['parent'], $menuIdArr)] !== false) {
                 $menuList[array_search($menuItem['parent'], $menuIdArr)]['children'][] = $menuItem;
             }
         }
