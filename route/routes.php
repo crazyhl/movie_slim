@@ -3,10 +3,10 @@
 // Routes
 // 如果他要登录，就无限的重复登录好了
 $app->post('/login', \App\Controller\User::class . ':login');
-$app->get('/test', \App\Controller\TestController::class . ':test')->add(new \App\Middleware\CheckUrl($app->getContainer()));
-$app->get('/testaddf/{id}', \App\Controller\TestController::class . ':test')->add(new \App\Middleware\CheckUrl($app->getContainer()));
-$app->get('/testasdf/{name}/{id}/{age}', \App\Controller\TestController::class . ':test')->add(new \App\Middleware\CheckUrl($app->getContainer()));
-$app->get('/', \App\Controller\TestController::class . ':test');
+//$app->get('/test', \App\Controller\TestController::class . ':test')->add(new \App\Middleware\CheckUrl($app->getContainer()));
+//$app->get('/testaddf/{id}', \App\Controller\TestController::class . ':test')->add(new \App\Middleware\CheckUrl($app->getContainer()));
+//$app->get('/testasdf/{name}/{id}/{age}', \App\Controller\TestController::class . ':test')->add(new \App\Middleware\CheckUrl($app->getContainer()));
+$app->get('/', \App\Controller\Menu::class . ':treeList');
 
 $app->group('', function () use ($app) {
     // 登出
@@ -14,7 +14,7 @@ $app->group('', function () use ($app) {
     // 用户信息
     $app->get('/userInfo', \App\Controller\User::class . ':info');
     // 获取菜单
-    $app->get('/getMenu/{position}', \App\Controller\User::class . ':getMenu');
+    $app->get('/getMenu/{position}', \App\Controller\Menu::class . ':getUserMenu');
     // 后台管理相关
     $app->group('/admin', function () use ($app) {
         // 角色相关
@@ -23,7 +23,8 @@ $app->group('', function () use ($app) {
         })->add(new \App\Middleware\CheckRole($app->getContainer()));
         // 菜单相关
         $app->group('/menu', function () use ($app) {
-            $app->get('[/{parentId:[0-9]+}]', \App\Controller\Menu::class . ':lists');
+            $app->get('', \App\Controller\Menu::class . ':lists');
+            $app->get('/treeList', \App\Controller\Menu::class . ':treeList');
         });
     });
 // 这里面的所有请求都会检测是否未登录
