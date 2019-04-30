@@ -6,6 +6,7 @@
  * Time: 14:01
  */
 if (PHP_SAPI == 'cli') {
+    mb_internal_encoding("utf-8");
     define('APP_DIR', dirname(__DIR__));
 
     // Instantiate the app

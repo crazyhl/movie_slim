@@ -8,7 +8,7 @@ if (PHP_SAPI == 'cli-server') {
         return false;
     }
 }
-
+mb_internal_encoding("utf-8");
 require __DIR__ . '/../vendor/autoload.php';
 
 //session_start();

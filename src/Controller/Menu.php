@@ -144,9 +144,10 @@ class Menu extends BaseController
         $menuList = $menuList->toArray();
         $menuIdArr = array_column($menuList, 'id');
 
-        foreach ($menuList as $key => &$menuItem) {
-            if ($menuList[array_search($menuItem['parent'], $menuIdArr)] !== false) {
-                $menuList[array_search($menuItem['parent'], $menuIdArr)]['children'][] = $menuItem;
+        foreach ($menuList as $key => $menuItem) {
+            $this->logger->info(array_search($menuItem['parent'], $menuIdArr));
+            if (array_search($menuItem['parent'], $menuIdArr) !== false) {
+                $menuList[array_search($menuItem['parent'], $menuIdArr)]['children'][] = $menuList[$key];
             }
         }
 
@@ -157,11 +158,12 @@ class Menu extends BaseController
             }
         }
 
+        $dataList = $this->treeMenuToListMenu($dataList);
 
         return $response->withJson([
             'status' => 0,
             'message' => '',
-            'data' => $dataList,//$menuIdArr, //array_search(2, $menuIdArr),
+            'data' => $dataList,
         ]);
     }
 
@@ -184,5 +186,28 @@ class Menu extends BaseController
         }
 
         return $where;
+    }
+
+    private function treeMenuToListMenu($menuList, $deep = 0)
+    {
+        static $returnMenuList = [];
+        if (empty($menuList)) {
+            return $returnMenuList;
+        }
+        $this->logger->info('$menuList:' . $deep . ':' . json_encode($menuList));
+        foreach ($menuList as $item) {
+            $name = $item['name'];
+            if ($deep > 0) {
+                $name = str_pad('└', strlen('└') - mb_strlen('└', 'UTF-8') + $deep * 3 + 1, '　', STR_PAD_LEFT) . $name;
+            }
+            $returnMenuList[] = [
+                'id' => $item['id'],
+                'name' => $name,
+            ];
+            if ($item['children']) {
+                $this->treeMenuToListMenu($item['children'], $deep + 1);
+            }
+        }
+        return $returnMenuList;
     }
 }

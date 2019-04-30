@@ -6,7 +6,7 @@ $app->post('/login', \App\Controller\User::class . ':login');
 //$app->get('/test', \App\Controller\TestController::class . ':test')->add(new \App\Middleware\CheckUrl($app->getContainer()));
 //$app->get('/testaddf/{id}', \App\Controller\TestController::class . ':test')->add(new \App\Middleware\CheckUrl($app->getContainer()));
 //$app->get('/testasdf/{name}/{id}/{age}', \App\Controller\TestController::class . ':test')->add(new \App\Middleware\CheckUrl($app->getContainer()));
-$app->get('/', \App\Controller\Menu::class . ':treeList');
+//$app->get('/', \App\Controller\Menu::class . ':treeList');
 
 $app->group('', function () use ($app) {
     // 登出
@@ -23,8 +23,8 @@ $app->group('', function () use ($app) {
         })->add(new \App\Middleware\CheckRole($app->getContainer()));
         // 菜单相关
         $app->group('/menu', function () use ($app) {
-            $app->get('', \App\Controller\Menu::class . ':lists');
             $app->get('/treeList', \App\Controller\Menu::class . ':treeList');
+            $app->get('', \App\Controller\Menu::class . ':lists');
         });
     });
 // 这里面的所有请求都会检测是否未登录
