@@ -17,7 +17,7 @@ abstract class AbstractValidator
      * @var array
      * rules 的 key 是验证的变量名称
      * rules 的 value 是个数组
-     * value 可包含 type type是声明变量的类型，可包含 string | number | float | double | array | regex | function 其他的需要用到的时候在添加
+     * value 可包含 type type是声明变量的类型，可包含 string | number | float | double | array | regex 其他的需要用到的时候在添加
      *       不同的类型会依赖后续不同的参数
      * value 包含 require 这个类型是 true | false, 如果是 true 就是必填项，如果请求参数不包含这个就会返回 false，默认 false
      * value 可包含 message 出错的提示信息，如果出错没有 message 的时候就考大家在 validation 里面自己实现默认的消息了,
@@ -104,11 +104,6 @@ abstract class AbstractValidator
                 case 'regex':
                     // 正则
                     if (!preg_match('~' . $rule['regex'] . '~iu', $value)) {
-                        return $falseReturn;
-                    }
-                    break;
-                case 'function':
-                    if (is_callable($rule['function']) && !call_user_func_array($rule['function'], [$value])) {
                         return $falseReturn;
                     }
                     break;
