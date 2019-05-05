@@ -50,10 +50,8 @@ class ValidateMiddleware
     public function __invoke(Request $request, Response $response, $next)
     {
         $routeParams = $request->getAttribute('routeInfo')[2];
-        $this->container->get('logger')->info(json_encode($routeParams));
 
         list($result, $message) = $this->validator->validation($request, $routeParams);
-        $this->container->get('logger')->info($result . '   '. $message);
 
         if ($result) {
             $response = $next($request, $response);

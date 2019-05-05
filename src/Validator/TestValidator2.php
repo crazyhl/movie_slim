@@ -26,7 +26,7 @@ class TestValidator2 extends AbstractValidator
             'array1' => [
                 ['type' => 'require'],
                 ['type' => 'array', 'message' => '必须是个数组'],
-                ['type' => 'length', 'value'=> 3, 'message' => 'fdsa'],
+                ['type' => 'length', 'value'=> 3, 'message' => '只能选择3个选项'],
             ],
         ];
     }

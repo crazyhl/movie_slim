@@ -26,7 +26,8 @@ class TestValidator extends AbstractValidator
             'field1' => [
                 ['type' => 'require'],
                 ['type' => 'integer', 'message' => '必须是个数字'],
-                ['type' => 'between', 'value' => '100:999', 'message' => '100-999之间'],
+                ['type' => 'list', 'value'=>[1,3], 'message' => 'fdsafdsa'],
+//                ['type' => 'between', 'value' => '100:999', 'message' => '100-999之间'],
             ],
             'field2' => [
                 ['type' => 'regex', 'pattern' => 'a[\d]+','message' => 'field2xxs'],
