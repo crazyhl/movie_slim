@@ -183,10 +183,43 @@ abstract class AbstractValidator
                             return [false, $rule['message'] ?: ''];
                         }
                         break;
+                    case 'between':
+                        $valueArr = explode(':', $rule['value']);
+                        $min = $valueArr[0] ?: null;
+                        $max = $valueArr[1] ?: null;
+                        switch ($fieldType) {
+                            case 'string':
+                                if ($min !== null && mb_strlen($value) < $min) {
+                                    return [false, $rule['message'] ?: ''];
+                                }
+
+                                if ($max !== null && mb_strlen($value) > $max) {
+                                    return [false, $rule['message'] ?: ''];
+                                }
+                                break;
+                            case 'integer':
+                            case 'double':
+                                if ($min !== null && $value < $min) {
+                                    return [false, $rule['message'] ?: ''];
+                                }
+
+                                if ($max !== null && $value > $max) {
+                                    return [false, $rule['message'] ?: ''];
+                                }
+                                break;
+                            case 'array':
+                                if ($min !== null && count($value) < $min) {
+                                    return [false, $rule['message'] ?: ''];
+                                }
+
+                                if ($max !== null && count($value) > $max) {
+                                    return [false, $rule['message'] ?: ''];
+                                }
+                                break;
+                        }
+                        break;
                 }
             }
-
-
         }
 
         return [true, ''];
