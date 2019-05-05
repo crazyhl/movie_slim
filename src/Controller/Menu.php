@@ -197,12 +197,20 @@ class Menu extends BaseController
         $this->logger->info('$menuList:' . $deep . ':' . json_encode($menuList));
         foreach ($menuList as $item) {
             $name = $item['name'];
+            $position = $item['position'];
+            $positionName = ($position == 1) ? '[后]' : '[前]';
+
+            $name = $positionName . $name;
             if ($deep > 0) {
-                $name = str_pad('└', strlen('└') - mb_strlen('└', 'UTF-8') + $deep * 3 + 1, '　', STR_PAD_LEFT) . $name;
+                $name = str_pad('└'
+                        , strlen('└') - mb_strlen('└', 'UTF-8') + $deep * 3 + 1
+                        , '　', STR_PAD_LEFT)
+                    . $name;
             }
             $returnMenuList[] = [
                 'id' => $item['id'],
                 'name' => $name,
+                'position' => $position,
             ];
             if ($item['children']) {
                 $this->treeMenuToListMenu($item['children'], $deep + 1);

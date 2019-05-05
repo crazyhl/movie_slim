@@ -106,6 +106,22 @@ class InitRoleAndAdmin extends Command
 
         $menu->permissions()->attach($permission);
 
+        $menuManagerMenu = $menu;
+
+        $menu = new Menu();
+        $menu->name = '新增菜单';
+        $menu->description = '菜单管理';
+        $menu->url = '/admin/menu/add';
+        $menu->slug = 'adminAddMenu';
+        $menu->parent = $menuManagerMenu->id;
+        $menu->position = 1;
+        $menu->order = 0;
+        $menu->is_open = 0;
+        $menu->icon = '';
+        $menu->save();
+
+        $menu->permissions()->attach($permission);
+
         $menu = new Menu();
         $menu->name = '权限管理';
         $menu->description = '权限管理';
