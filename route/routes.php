@@ -3,10 +3,12 @@
 // Routes
 // 如果他要登录，就无限的重复登录好了
 $app->post('/login', \App\Controller\User::class . ':login');
-//$app->get('/test', \App\Controller\TestController::class . ':test')->add(new \App\Middleware\CheckUrl($app->getContainer()));
+$app->get('/test', \App\Controller\TestController::class . ':test')->add(new \App\Middleware\CheckUrl($app->getContainer()));
 //$app->get('/testaddf/{id}', \App\Controller\TestController::class . ':test')->add(new \App\Middleware\CheckUrl($app->getContainer()));
 //$app->get('/testasdf/{name}/{id}/{age}', \App\Controller\TestController::class . ':test')->add(new \App\Middleware\CheckUrl($app->getContainer()));
 //$app->get('/', \App\Controller\Menu::class . ':treeList');
+$app->get('/test1[/{field1}[/{field2}]]', \App\Controller\TestController::class . ':test')->add(new \App\Middleware\ValidateMiddleware($app->getContainer(), new \App\Validator\TestValidator()));
+$app->post('/testpost', \App\Controller\TestController::class . ':test')->add(new \App\Middleware\ValidateMiddleware($app->getContainer(), new \App\Validator\TestValidator2()));
 
 $app->group('', function () use ($app) {
     // 登出

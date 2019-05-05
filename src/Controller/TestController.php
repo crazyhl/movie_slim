@@ -19,7 +19,7 @@ class TestController extends BaseController
     {
         // Sample log message
 //        $this->logger->info("Slim-Skeleton '/' route");
-
+        $this->logger->info('postParams ' . json_encode($request->getParsedBody()));
         Carbon::now()->startOfDay();
         $menus = \App\Model\Menu::with('childrenMenu')->get();
 
