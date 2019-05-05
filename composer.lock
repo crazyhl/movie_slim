@@ -394,7 +394,7 @@
         },
         {
             "name": "illuminate/container",
-            "version": "v5.8.14",
+            "version": "v5.8.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
@@ -445,7 +445,7 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v5.8.14",
+            "version": "v5.8.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
@@ -495,16 +495,16 @@
         },
         {
             "name": "illuminate/database",
-            "version": "v5.8.14",
+            "version": "v5.8.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/database.git",
-                "reference": "a68f2ea08627af047b9d58feb2b1e3697a8bf298"
+                "reference": "f01892d98d2547deb835ea95c554ee3299a3a0d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/database/zipball/a68f2ea08627af047b9d58feb2b1e3697a8bf298",
-                "reference": "a68f2ea08627af047b9d58feb2b1e3697a8bf298",
+                "url": "https://api.github.com/repos/illuminate/database/zipball/f01892d98d2547deb835ea95c554ee3299a3a0d6",
+                "reference": "f01892d98d2547deb835ea95c554ee3299a3a0d6",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -557,11 +557,11 @@
                 "orm",
                 "sql"
             ],
-            "time": "2019-04-22T19:09:23+00:00"
+            "time": "2019-04-30T14:02:59+00:00"
         },
         {
             "name": "illuminate/pagination",
-            "version": "v5.8.14",
+            "version": "v5.8.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/pagination.git",
@@ -612,16 +612,16 @@
         },
         {
             "name": "illuminate/support",
-            "version": "v5.8.14",
+            "version": "v5.8.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "e1b62fbf219dc1fa7154b0abef3975a41038bca7"
+                "reference": "7fbf8d76946ee53587955b670bd8a47e3d48e854"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/e1b62fbf219dc1fa7154b0abef3975a41038bca7",
-                "reference": "e1b62fbf219dc1fa7154b0abef3975a41038bca7",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/7fbf8d76946ee53587955b670bd8a47e3d48e854",
+                "reference": "7fbf8d76946ee53587955b670bd8a47e3d48e854",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -675,7 +675,7 @@
             ],
             "description": "The Illuminate Support package.",
             "homepage": "https://laravel.com",
-            "time": "2019-04-22T13:12:35+00:00"
+            "time": "2019-04-25T14:06:24+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -1192,16 +1192,16 @@
         },
         {
             "name": "psr/http-factory",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/http-factory.git",
-                "reference": "378bfe27931ecc54ff824a20d6f6bfc303bbd04c"
+                "reference": "12ac7fcd07e5b077433f5f2bee95b3a771bf61be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-factory/zipball/378bfe27931ecc54ff824a20d6f6bfc303bbd04c",
-                "reference": "378bfe27931ecc54ff824a20d6f6bfc303bbd04c",
+                "url": "https://api.github.com/repos/php-fig/http-factory/zipball/12ac7fcd07e5b077433f5f2bee95b3a771bf61be",
+                "reference": "12ac7fcd07e5b077433f5f2bee95b3a771bf61be",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1246,7 +1246,7 @@
                 "request",
                 "response"
             ],
-            "time": "2018-07-30T21:54:04+00:00"
+            "time": "2019-04-30T12:38:16+00:00"
         },
         {
             "name": "psr/http-message",
@@ -1712,7 +1712,7 @@
         },
         {
             "name": "symfony/console",
-            "version": "v4.2.7",
+            "version": "v4.2.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
@@ -1929,16 +1929,16 @@
         },
         {
             "name": "symfony/translation",
-            "version": "v4.2.7",
+            "version": "v4.2.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
-                "reference": "46c0dede1f925383d13dc783857be2c41efd0b24"
+                "reference": "181a426dd129cb496f12d7e7555f6d0b37a7615b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/46c0dede1f925383d13dc783857be2c41efd0b24",
-                "reference": "46c0dede1f925383d13dc783857be2c41efd0b24",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/181a426dd129cb496f12d7e7555f6d0b37a7615b",
+                "reference": "181a426dd129cb496f12d7e7555f6d0b37a7615b",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -2006,7 +2006,7 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "https://symfony.com",
-            "time": "2019-04-10T16:20:36+00:00"
+            "time": "2019-05-01T12:55:36+00:00"
         },
         {
             "name": "tuupola/callable-handler",
@@ -2197,7 +2197,7 @@
         },
         {
             "name": "web-token/jwt-checker",
-            "version": "v1.3.5",
+            "version": "v1.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-token/jwt-checker.git",
@@ -2270,7 +2270,7 @@
         },
         {
             "name": "web-token/jwt-core",
-            "version": "v1.3.5",
+            "version": "v1.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-token/jwt-core.git",
@@ -2350,16 +2350,16 @@
         },
         {
             "name": "web-token/jwt-key-mgmt",
-            "version": "v1.3.5",
+            "version": "v1.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-token/jwt-key-mgmt.git",
-                "reference": "dc71d0ab631ca2a025d0c111dfd47bf468ce3678"
+                "reference": "0d92c381e2732bb9c6c2a8e21ab10d133ae074d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/web-token/jwt-key-mgmt/zipball/dc71d0ab631ca2a025d0c111dfd47bf468ce3678",
-                "reference": "dc71d0ab631ca2a025d0c111dfd47bf468ce3678",
+                "url": "https://api.github.com/repos/web-token/jwt-key-mgmt/zipball/0d92c381e2732bb9c6c2a8e21ab10d133ae074d2",
+                "reference": "0d92c381e2732bb9c6c2a8e21ab10d133ae074d2",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -2429,11 +2429,11 @@
                 "jwt",
                 "symfony"
             ],
-            "time": "2019-04-21T22:05:56+00:00"
+            "time": "2019-05-02T12:37:15+00:00"
         },
         {
             "name": "web-token/jwt-signature",
-            "version": "v1.3.5",
+            "version": "v1.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-token/jwt-signature.git",
@@ -2519,7 +2519,7 @@
         },
         {
             "name": "web-token/jwt-signature-algorithm-ecdsa",
-            "version": "v1.3.5",
+            "version": "v1.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-token/jwt-signature-algorithm-ecdsa.git",
@@ -2592,7 +2592,7 @@
         },
         {
             "name": "web-token/jwt-signature-algorithm-eddsa",
-            "version": "v1.3.5",
+            "version": "v1.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-token/jwt-signature-algorithm-eddsa.git",
@@ -2665,7 +2665,7 @@
         },
         {
             "name": "web-token/jwt-signature-algorithm-hmac",
-            "version": "v1.3.5",
+            "version": "v1.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-token/jwt-signature-algorithm-hmac.git",
@@ -2738,7 +2738,7 @@
         },
         {
             "name": "web-token/jwt-signature-algorithm-none",
-            "version": "v1.3.5",
+            "version": "v1.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-token/jwt-signature-algorithm-none.git",
@@ -2811,7 +2811,7 @@
         },
         {
             "name": "web-token/jwt-signature-algorithm-rsa",
-            "version": "v1.3.5",
+            "version": "v1.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-token/jwt-signature-algorithm-rsa.git",
@@ -2884,7 +2884,7 @@
         },
         {
             "name": "web-token/jwt-util-ecc",
-            "version": "v1.3.5",
+            "version": "v1.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-token/jwt-util-ecc.git",
@@ -3137,16 +3137,16 @@
         },
         {
             "name": "phpdocumentor/reflection-docblock",
-            "version": "4.3.0",
+            "version": "4.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "94fd0001232e47129dd3504189fa1c7225010d08"
+                "reference": "bdd9f737ebc2a01c06ea7ff4308ec6697db9b53c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/94fd0001232e47129dd3504189fa1c7225010d08",
-                "reference": "94fd0001232e47129dd3504189fa1c7225010d08",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/bdd9f737ebc2a01c06ea7ff4308ec6697db9b53c",
+                "reference": "bdd9f737ebc2a01c06ea7ff4308ec6697db9b53c",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -3190,7 +3190,7 @@
                 }
             ],
             "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
-            "time": "2017-11-30T07:14:17+00:00"
+            "time": "2019-04-30T17:48:53+00:00"
         },
         {
             "name": "phpdocumentor/type-resolver",
@@ -4386,7 +4386,7 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v4.2.7",
+            "version": "v4.2.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
