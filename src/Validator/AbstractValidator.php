@@ -67,7 +67,7 @@ abstract class AbstractValidator
 
             $value = $this->request->getParsedBodyParam($paramName);
 
-            if (empty($value) && strtoupper($requestMethod) !== 'GET') {
+            if (strtoupper($requestMethod) !== 'GET') {
                 $value = $this->request->getQueryParam($paramName);
             }
 
