@@ -57,7 +57,7 @@ class ValidateMiddleware
             $response = $next($request, $response);
         } else {
             $response = $response->withJson([
-                'status' => -19999,
+                'status' => -1999,
                 'message' => $message,
                 'data' => '',
             ]);

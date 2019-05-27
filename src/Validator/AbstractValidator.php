@@ -64,11 +64,18 @@ abstract class AbstractValidator
         // 就获取 extraParams
         // 每个字段的rules 也改变为数组就ok了
         foreach ($rules as $paramName => $fieldRules) {
+            $value = null;
+            $getValue = $this->request->getQueryParam($paramName, null);
 
-            $value = $this->request->getParsedBodyParam($paramName);
+            if ($getValue !== null) {
+                $value = $getValue;
+            }
 
             if (strtoupper($requestMethod) !== 'GET') {
-                $value = $this->request->getQueryParam($paramName);
+                $postValue = $this->request->getParsedBodyParam($paramName, null);
+                if ($postValue !== null) {
+                    $value = $postValue;
+                }
             }
 
 
@@ -78,12 +85,9 @@ abstract class AbstractValidator
 
             $fieldType = 'string';
             foreach ($fieldRules as $rule) {
-                if ($rule['type'] !== 'require' && empty($value)) {
-                    continue;
-                }
                 switch ($rule['type']) {
                     case 'require':
-                        if (empty($value)) {
+                        if ($value === null) {
                             return [false, $rule['message'] ?: $paramName . '必须存在'];
                         }
                         break;

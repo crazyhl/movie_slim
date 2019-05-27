@@ -26,6 +26,8 @@ $app->group('', function () use ($app) {
         // 菜单相关
         $app->group('/menu', function () use ($app) {
             $app->get('/treeList', \App\Controller\Menu::class . ':treeList');
+            $app->post('/add', \App\Controller\Menu::class . ':add')
+                ->add(new \App\Middleware\ValidateMiddleware($app->getContainer(), new \App\Validator\AddMenuValidator()));
             $app->get('', \App\Controller\Menu::class . ':lists');
         });
     });

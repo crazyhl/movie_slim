@@ -167,6 +167,55 @@ class Menu extends BaseController
         ]);
     }
 
+    public function add(Request $request, Response $response) {
+        $responseArr = [
+            'status' => 0,
+            'message' => '',
+            'data' => [],
+        ];
+        // 利用 slug 校验是否存在
+        $slug = $request->getParsedBodyParam('slug');
+        $existMenu = MenuModel::where('slug', '=', $slug)->first();
+        // 已存在就报错
+        if ($existMenu) {
+            $responseArr['status'] = -2;
+            $responseArr['message'] = '菜单已存在';
+            return $response->withJson($responseArr);
+        }
+
+        // 不存在的情况下在添加
+        $menu = new MenuModel();
+        $menu->name = $request->getParsedBodyParam('name');
+        $menu->slug = $slug;
+        $menu->description = $request->getParsedBodyParam('description');
+        $menu->icon = $request->getParsedBodyParam('icon', '');
+        $menu->url = $request->getParsedBodyParam('url', '');
+        $menu->order = $request->getParsedBodyParam('order');
+        $menu->parent = $request->getParsedBodyParam('parentId');
+        $menu->is_open = $request->getParsedBodyParam('is_open');
+        $menu->is_show = $request->getParsedBodyParam('is_show');
+        $menu->position = $request->getParsedBodyParam('position');
+        $result = $menu->save();
+
+
+        if ($result) {
+            $responseArr['data'] = $menu;
+        } else {
+            $responseArr['status'] = -1;
+            $responseArr['message'] = '添加失败';
+        }
+
+        return $response->withJson($responseArr);
+    }
+
+
+    // ------------------------- private function ---------------------------------------
+
+    /**
+     * 获取生成菜单条件
+     * @param Request $request
+     * @return array
+     */
     private function generateGetMenuListWhereParams(Request $request)
     {
         $parentId = $request->getQueryParam('parentId', null); //$args['parentId'] ?: null;
@@ -188,6 +237,12 @@ class Menu extends BaseController
         return $where;
     }
 
+    /**
+     * 转成树形菜单
+     * @param $menuList
+     * @param int $deep
+     * @return array
+     */
     private function treeMenuToListMenu($menuList, $deep = 0)
     {
         static $returnMenuList = [];
