@@ -7,7 +7,7 @@ $app->get('/test', \App\Controller\TestController::class . ':test')->add(new \Ap
 //$app->get('/testaddf/{id}', \App\Controller\TestController::class . ':test')->add(new \App\Middleware\CheckUrl($app->getContainer()));
 //$app->get('/testasdf/{name}/{id}/{age}', \App\Controller\TestController::class . ':test')->add(new \App\Middleware\CheckUrl($app->getContainer()));
 //$app->get('/', \App\Controller\Menu::class . ':treeList');
-$app->get('/test1[/{field1}[/{field2}]]', \App\Controller\TestController::class . ':test')->add(new \App\Middleware\ValidateMiddleware($app->getContainer(), new \App\Validator\TestValidator()));
+$app->get('/test1[/{field1}[/{field2}]]', \App\Controller\TestController::class . ':test')->add(new \App\Middleware\ValidateMiddleware($app->getContainer(), new \App\Validator\TestValidator3()));
 $app->post('/testpost', \App\Controller\TestController::class . ':test')->add(new \App\Middleware\ValidateMiddleware($app->getContainer(), new \App\Validator\TestValidator2()));
 
 $app->group('', function () use ($app) {

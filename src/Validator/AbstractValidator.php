@@ -54,7 +54,7 @@ abstract class AbstractValidator
         $rules = $this->rules();
 
         if (!is_array($rules)) {
-            return true;
+            return [true, ''];
         }
 
         // 获取请求方法
@@ -63,165 +63,132 @@ abstract class AbstractValidator
         // 则优先获取post参数，如果不存在在获取get参数，如果依然不存在
         // 就获取 extraParams
         // 每个字段的rules 也改变为数组就ok了
-        foreach ($rules as $paramName => $fieldRules) {
+        foreach ($rules as $fieldName => $fieldRule) {
             $value = null;
-            $getValue = $this->request->getQueryParam($paramName, null);
+            $getValue = $this->request->getQueryParam($fieldName, null);
 
             if ($getValue !== null) {
                 $value = $getValue;
             }
 
             if (strtoupper($requestMethod) !== 'GET') {
-                $postValue = $this->request->getParsedBodyParam($paramName, null);
+                $postValue = $this->request->getParsedBodyParam($fieldName, null);
                 if ($postValue !== null) {
                     $value = $postValue;
                 }
             }
 
 
-            if (array_key_exists($paramName, $this->extraParams)) {
-                $value = $this->extraParams[$paramName];
+            if (array_key_exists($fieldName, $this->extraParams)) {
+                $value = $this->extraParams[$fieldName];
             }
 
+            $messageFieldName = $fieldRule['name'] ?: $fieldName;
+
             $fieldType = 'string';
-            foreach ($fieldRules as $rule) {
-                switch ($rule['type']) {
-                    case 'require':
-                        if ($value === null) {
-                            return [false, $rule['message'] ?: $paramName . '必须存在'];
-                        }
-                        break;
-                    case 'string':
-                        break;
-                    case 'integer':
-                        if (!is_numeric($value) || ($value + 0) !== intval($value)) {
-                            return [false, $rule['message'] ?: ''];
-                        }
 
-                        $value = intval($value);
-                        $fieldType = 'integer';
-                        break;
-                    case 'float':
-                    case 'double':
-                        if (!is_numeric($value) || ($value + 0) !== floatval($value)) {
-                            return [false, $rule['message'] ?: ''];
-                        }
-                        $value = floatval($value);
-                        $fieldType = 'double';
-                        break;
-                    case 'regex':
-                        // 正则
-                        if (!preg_match('~' . $rule['pattern'] . '~iu', $value)) {
-                            return [false, $rule['message'] ?: ''];
-                        }
-                        break;
-                    case 'array':
-                        // 数组
-                        if (!is_array($value)) {
-                            return [false, $rule['message'] ?: ''];
-                        }
-                        $fieldType = 'array';
-                        break;
-                    case 'min':
-                        switch ($fieldType) {
-                            case 'string':
-                                if (mb_strlen($value) < $rule['value']) {
-                                    return [false, $rule['message'] ?: ''];
-                                }
-                                break;
-                            case 'integer':
-                            case 'double':
-                                if ($value < $rule['value']) {
-                                    return [false, $rule['message'] ?: ''];
-                                }
-                                break;
-                            case 'array':
-                                if (count($value) < $rule['value']) {
-                                    return [false, $rule['message'] ?: ''];
-                                }
-                                break;
-                        }
-                        break;
-                    case 'max':
-                        switch ($fieldType) {
-                            case 'string':
-                                if (mb_strlen($value) > $rule['value']) {
-                                    return [false, $rule['message'] ?: ''];
-                                }
-                                break;
-                            case 'integer':
-                            case 'double':
-                                if ($value > $rule['value']) {
-                                    return [false, $rule['message'] ?: ''];
-                                }
-                                break;
-                            case 'array':
-                                if (count($value) > $rule['value']) {
-                                    return [false, $rule['message'] ?: ''];
-                                }
-                                break;
-                        }
-                        break;
-                    case 'length':
-                        switch ($fieldType) {
-                            case 'string':
-                                if (mb_strlen($value) !== $rule['value']) {
-                                    return [false, $rule['message'] ?: ''];
-                                }
-                                break;
-                            case 'integer':
-                            case 'double':
-                                if ($value !== $rule['value']) {
-                                    return [false, $rule['message'] ?: ''];
-                                }
-                                break;
-                            case 'array':
-                                if (count($value) !== $rule['value']) {
-                                    return [false, $rule['message'] . count($value) ?: ''];
-                                }
-                                break;
-                        }
-                        break;
-                    case 'list':
-                        if (!in_array($value, $rule['value'], true)) {
-                            return [false, $rule['message'] ?: ''];
-                        }
-                        break;
-                    case 'between':
-                        $valueArr = explode(':', $rule['value']);
-                        $min = $valueArr[0] ?: null;
-                        $max = $valueArr[1] ?: null;
-                        switch ($fieldType) {
-                            case 'string':
-                                if ($min !== null && mb_strlen($value) < $min) {
-                                    return [false, $rule['message'] ?: ''];
-                                }
+            $isRequire = false;
 
-                                if ($max !== null && mb_strlen($value) > $max) {
-                                    return [false, $rule['message'] ?: ''];
-                                }
-                                break;
-                            case 'integer':
-                            case 'double':
-                                if ($min !== null && $value < $min) {
-                                    return [false, $rule['message'] ?: ''];
-                                }
+            if ($fieldRule['require']) {
+                $isRequire = $fieldRule['require'];
+            }
 
-                                if ($max !== null && $value > $max) {
-                                    return [false, $rule['message'] ?: ''];
-                                }
-                                break;
-                            case 'array':
-                                if ($min !== null && count($value) < $min) {
-                                    return [false, $rule['message'] ?: ''];
-                                }
+            // 必填项
+            if ($isRequire && null === $value) {
+                return [false, $fieldRule['requireMessage'] ?: $messageFieldName . '必须存在'];
+            } else if ($isRequire === false && null === $value) {
+                continue;
+            }
 
-                                if ($max !== null && count($value) > $max) {
-                                    return [false, $rule['message'] ?: ''];
-                                }
-                                break;
-                        }
-                        break;
+            // 如果设定了类型，则选用自定义的类型
+            if ($fieldRule['type']) {
+                $fieldType = $fieldRule['type'];
+            }
+
+            // 定义更多限定的方法名称，方便后面一步限定
+            $minFunction = '';
+            $maxFunction = '';
+            $lengthFunction = '';
+            $betweenFunction = '';
+            $listFunction = 'in_array';
+            $typeErrorMessagePrefix = '';
+
+            switch ($fieldType) {
+                case 'string':
+                    // 字符串
+                    $minFunction = 'mb_strlen';
+                    $maxFunction = 'mb_strlen';
+                    $lengthFunction = 'mb_strlen';
+                    $betweenFUnction = 'mb_strlen';
+                    $typeErrorMessagePrefix = '长度';
+                    break;
+                case 'integer':
+                    // 数字
+                    if (!is_numeric($value) || ($value + 0) !== intval($value)) {
+                        return [false, $fieldRule['message'] ?: $messageFieldName . '必须是数字'];
+                    }
+                    $value = intval($value);
+                    break;
+                case 'float':
+                case 'double':
+                    if (!is_numeric($value) || ($value + 0) !== floatval($value)) {
+                        return [false, $fieldRule['message'] ?: $messageFieldName . '必须是浮点数'];
+                    }
+                    $value = floatval($value);
+                    break;
+                case 'regex':
+                    if ($fieldRule['pattern'] && !preg_match('~' . $fieldRule['pattern'] . '~iu', $value)) {
+                        return [false, $fieldRule['message'] ?: $messageFieldName . '格式不正确'];
+                    }
+                    $typeErrorMessagePrefix = '长度';
+                    break;
+                case 'array':
+                    if (!is_array($value)) {
+                        return [false, $fieldRule['message'] ?: $messageFieldName . '格式不正确'];
+                    }
+                    $minFunction = 'count';
+                    $maxFunction = 'count';
+                    $lengthFunction = 'count';
+                    $betweenFunction = 'count';
+                    $typeErrorMessagePrefix = '数量';
+                    break;
+            }
+
+            if (array_key_exists('min', $fieldRule)) {
+                if (($minFunction && $minFunction($value) < $fieldRule['min']) || $value < $fieldRule['min']) {
+                    return [false, $fieldRule[$fieldType . 'Message'] ?: $messageFieldName . $typeErrorMessagePrefix . '不能小于' . $fieldRule['min']];
+                }
+            }
+
+            if (array_key_exists('max', $fieldRule)) {
+                if (($maxFunction && $maxFunction($value) > $fieldRule['max']) || $value > $fieldRule['max']) {
+                    return [false, $fieldRule[$fieldType . 'Message'] ?: $messageFieldName . $typeErrorMessagePrefix . '不能大于' . $fieldRule['min']];
+                }
+            }
+
+            if (array_key_exists('length', $fieldRule)) {
+                if (($lengthFunction && $lengthFunction($value) !== $fieldRule['length']) || $value !== $fieldRule['length']) {
+                    return [false, $fieldRule[$fieldType . 'Message'] ?: $messageFieldName . $typeErrorMessagePrefix . '不正确'];
+                }
+            }
+
+            if (array_key_exists('list', $fieldRule)) {
+                if (!$listFunction($value, $fieldRule['list'], true)) {
+                    return [false, $fieldRule[$fieldType . 'Message'] ?: $messageFieldName . '范围不正确'];
+                }
+            }
+
+            if (array_key_exists('between', $fieldRule)) {
+                $valueArr = explode(':', $fieldRule['between']);
+                $min = $valueArr[0] ?: null;
+                $max = $valueArr[1] ?: null;
+
+                if ($min !== null && (($betweenFunction && $betweenFunction($value) < $fieldRule['min']) || $value < $fieldRule['min'])) {
+                    return [false, $fieldRule[$fieldType . 'Message'] ?: $messageFieldName . $typeErrorMessagePrefix . '不能小于' . $fieldRule['min']];
+                }
+
+                if ($max !== null && (($betweenFunction && $betweenFunction($value) > $fieldRule['max']) || $value > $fieldRule['max'])) {
+                    return [false, $fieldRule[$fieldType . 'Message'] ?: $messageFieldName . $typeErrorMessagePrefix . '不能大于' . $fieldRule['min']];
                 }
             }
         }
