@@ -3,7 +3,11 @@
 
 namespace App\Validator;
 
-
+/**
+ * Class TestValidator2
+ * @package App\Validator
+ * @deprecated
+ */
 class TestValidator2 extends AbstractValidator
 {
 

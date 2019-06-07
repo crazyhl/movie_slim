@@ -24,36 +24,60 @@ class AddMenuValidator extends AbstractValidator
         // TODO: Implement rules() method.
         return [
             'name' => [
-                ['type' => 'require', 'message' => '名称不能为空'],
+                'name' => '名称',
+                'require' => true,
+                'requireMessage' => '名称不能为空',
             ],
             'slug' => [
-                ['type' => 'require', 'message' => '别名不能为空'],
+                'name' => '别名',
+                'require' => true,
+                'requireMessage' => '别名不能为空',
             ],
             'url' => [
-                ['type' => 'require', 'message' => 'url不能为空'],
+                'name' => 'url',
+                'require' => true,
+                'requireMessage' => 'url不能为空',
             ],
             'order' => [
-                ['type' => 'require', 'message' => '排序不能为空'],
-                ['type' => 'integer', 'message' => '排序必须是数字'],
+                'name' => '排序',
+                'require' => true,
+                'requireMessage' => '排序不能为空',
+                'type' => 'integer',
+                'message' => '排序必须是数字',
             ],
             'parentId' => [
-                ['type' => 'require', 'message' => '父菜单必须选择'],
-                ['type' => 'integer', 'message' => '父菜单必须是个数字'],
+                'name' => '父菜单',
+                'require' => true,
+                'requireMessage' => '父菜单必须选择',
+                'type' => 'integer',
+                'message' => '父菜单必须是个数字',
             ],
             'is_open' => [
-                ['type' => 'require', 'message' => '必须选择开启'],
-                ['type' => 'integer', 'message' => '开启必须是个数字'],
-                ['type' => 'list', 'value'=>[0,1], 'message' => '开启范围不正确'],
+                'name' => '开启',
+                'require' => true,
+                'requireMessage' => '必须选择开启',
+                'type' => 'integer',
+                'message' => '开启必须是个数字',
+                'list' => [0,1],
+                'listMessage' => '开启范围不正确'
             ],
             'is_show' => [
-                ['type' => 'require', 'message' => '必须选择显示'],
-                ['type' => 'integer', 'message' => '显示必须是个数字'],
-                ['type' => 'list', 'value'=>[0,1], 'message' => '显示范围不正确'],
+                'name' => '显示',
+                'require' => true,
+                'requireMessage' => '必须选择显示',
+                'type' => 'integer',
+                'message' => '显示必须是个数字',
+                'list' => [0,1],
+                'listMessage' => '显示范围不正确'
             ],
             'position' => [
-                ['type' => 'require', 'message' => '必须选择位置'],
-                ['type' => 'integer', 'message' => '位置必须是个数字'],
-                ['type' => 'list', 'value'=>[0,1], 'message' => '位置范围不正确'],
+                'name' => '位置',
+                'require' => true,
+                'requireMessage' => '必须选择位置',
+                'type' => 'integer',
+                'message' => '位置必须是个数字',
+                'list' => [0,1],
+                'listMessage' => '位置范围不正确'
             ],
         ];
     }

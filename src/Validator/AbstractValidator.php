@@ -82,7 +82,6 @@ abstract class AbstractValidator
             if (array_key_exists($fieldName, $this->extraParams)) {
                 $value = $this->extraParams[$fieldName];
             }
-
             $messageFieldName = $fieldRule['name'] ?: $fieldName;
 
             $fieldType = 'string';
@@ -94,10 +93,8 @@ abstract class AbstractValidator
             }
 
             // 必填项
-            if ($isRequire && null === $value) {
+            if ($isRequire && (null === $value || mb_strlen($value) == 0)) {
                 return [false, $fieldRule['requireMessage'] ?: $messageFieldName . '必须存在'];
-            } else if ($isRequire === false && null === $value) {
-                continue;
             }
 
             // 如果设定了类型，则选用自定义的类型
@@ -119,7 +116,7 @@ abstract class AbstractValidator
                     $minFunction = 'mb_strlen';
                     $maxFunction = 'mb_strlen';
                     $lengthFunction = 'mb_strlen';
-                    $betweenFUnction = 'mb_strlen';
+                    $betweenFunction = 'mb_strlen';
                     $typeErrorMessagePrefix = '长度';
                     break;
                 case 'integer':
