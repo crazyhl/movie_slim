@@ -75,10 +75,12 @@ class User extends Model
         $rolePermissions = Permission::whereIn('id', $roleIds)->get();
         $permissions = [];
 
+        // 获取角色包含的所有权限
         foreach ($rolePermissions as $permission) {
             $permissions[$permission->id] = $permission;
         }
 
+        // 获取用户本身绑定的全新啊
         foreach ($this->permissions as $permission) {
             $permissions[$permission->id] = $permission;
         }

@@ -26,6 +26,9 @@ class Menu extends BaseController
     public function getUserMenu(Request $request, Response $response, $args)
     {
         $position = $args['position'];
+        /**
+         * @var $user \App\Model\User
+         */
         $user = $request->getAttribute('user');
         $rolePermissions = $user->getRolePermissions();
         // 得到了所有的权限id
@@ -208,6 +211,11 @@ class Menu extends BaseController
         return $response->withJson($responseArr);
     }
 
+    public function get(Request $request, Response $response) {
+        $menuId =
+        $menu = new MenuModel();
+
+    }
 
     // ------------------------- private function ---------------------------------------
 

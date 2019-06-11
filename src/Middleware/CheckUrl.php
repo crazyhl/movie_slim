@@ -16,6 +16,7 @@ use Slim\Container;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use App\Model\User as UserModel;
+use Slim\Route;
 
 /**
  * 检测菜单权限的中间件
@@ -46,7 +47,12 @@ class CheckUrl
     public function __invoke(Request $request, Response $response, $next)
     {
         $requestPath = $request->getUri()->getPath();
+        /**
+         * @var $route Route
+         */
         $route = $request->getAttribute('route');
+        $routeName = $route->getName();
+        var_dump($routeName);
         if ($route) {
             $arguments = $route->getArguments();
             if ($arguments) {
